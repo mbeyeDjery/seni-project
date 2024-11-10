@@ -1,0 +1,150 @@
+<p-toast />
+<div class="flex align-items-center justify-content-between mb-5 gap-5">
+    <h4>Compte Gestionnaire</h4>
+    <div>
+
+    </div>
+</div>
+<div class="card">
+    <p-table
+        #userTable
+        [value]="appUsers"
+        dataKey="username"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="isLoading()"
+        [paginator]="true"
+        [globalFilterFields]="['username', 'firstName', 'lastName']"
+        [rowHover]="true"
+        styleClass="p-datatable-striped"
+    >
+
+        <ng-template pTemplate="caption">
+            <div class="flex">
+
+                <span class="p-input-icon-left">
+                    <input type="text" [(ngModel)]="searchValue" (input)="userTable.filterGlobal(searchValue, 'contains')" placeholder="Rechercher"  pInputText class="w-full md:w-34rem" style="padding:1rem"/>
+                </span>
+
+                <span class="p-input-icon-right ml-auto">
+                    <p-button [outlined]="true" icon="pi pi-file-pdf" class="mr-2"/>
+                    <p-button [outlined]="true" icon="pi pi-file-excel" class="mr-2"/>
+                    <p-button label="Nouveau" [outlined]="true" icon="pi pi-user-plus" class="mr-2" (onClick)="nouveau()" />
+                    <p-button label="Actualiser" title="Actualisaer la liste" [outlined]="true" icon="pi pi-filter-slash" severity="warning" class="mr-2" (onClick)="reset(userTable)" />
+                </span>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="min-width:15rem" pSortableColumn="firstName">
+                    <div class="flex align-items-center">
+                        Non
+                        <p-sortIcon field="firstName" />
+                    </div>
+                </th>
+                <th style="min-width:15rem" pSortableColumn="username">
+                    <div class="flex align-items-center">
+                        Login
+                        <p-sortIcon field="username" />
+                    </div>
+                </th>
+                <th style="min-width:15rem">
+                    <div class="flex align-items-center">
+                        Téléphone
+                    </div>
+                </th>
+                <th style="min-width:15rem">
+                    <div class="flex align-items-center">
+                        E-mail
+                    </div>
+                </th>
+                <th style="min-width:15rem">
+                    <div class="flex align-items-center">
+                        Role
+                    </div>
+                </th>
+                <th style="min-width:15rem" pSortableColumn="enabled">
+                    <div class="flex align-items-center">
+                        Statut
+                        <p-sortIcon field="enabled" />
+                    </div>
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-appUser>
+            <tr>
+                <td>
+                    <img alt="photo" src="assets/demo/images/avatar/profile.png" class="mr-2" width="28" style="vertical-align: middle" />
+                    {{ appUser.firstName }} {{ appUser.lastName }}
+                </td>
+                <td>
+                    {{ appUser.username }}
+                </td>
+                <td>
+                    {{ appUser.telephone }}
+                </td>
+                <td>
+                    {{ appUser.email }}
+                </td>
+                <td>
+                    {{ appUser.roles[0].roleName }}
+                </td>
+                <td>
+                    <p-tag [value]="appUser.enabled ? 'Activer' : 'Desactiver'" [severity]="getSeverity(appUser.enabled)" />
+                </td>
+                <td>
+                    <p-button
+                        icon="pi pi-user-edit"
+                        [rounded]="true"
+                        [outlined]="true"
+                        (click)="edit(appUser)"
+                        class="mr-2"
+                    />
+
+                    <p-button
+                        icon="pi pi-key"
+                        [rounded]="true"
+                        [outlined]="true"
+                        severity="warning"
+                        (click)="resetPassword(appUser)"
+                    />
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-confirmDialog #cd>
+    <ng-template pTemplate="headless" let-message>
+        <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+            <div class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem">
+                <i class="pi pi-question text-5xl"></i>
+            </div>
+            <span class="font-bold text-2xl block mb-2 mt-4">
+                {{ message.header }}
+            </span>
+            <p class="mb-0">{{ message.message }}</p>
+            <div class="flex align-items-center gap-2 mt-4">
+                <button
+                    pButton
+                    label="Oui"
+                    (click)="cd.accept()"
+                    class="w-8rem">
+                </button>
+                <button
+                    pButton
+                    label="Non"
+                    (click)="cd.reject()"
+                    class="p-button-outlined w-8rem ">
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>

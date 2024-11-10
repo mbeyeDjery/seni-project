@@ -1,0 +1,7 @@
+seni-app:
+  keycloak:
+    realm: ${KEYCLOAK_REALM:seni_admin}
+    clientId: ${KEYCLOAK_CLIENT:auth_admin}
+    host: ${KEYCLOAK_HOST:http://localhost:1200}
+    clientSecret: ${KEYCLOAK_SECRET:LbOHuuPYgMT1U0aex5Z70vg3i3o5LEHl}
+    authBaseUrl: ${KEYCLOAK_AUTH_URL:http://localhost:1200/realms/seni_admin/protocol/openid-connect}

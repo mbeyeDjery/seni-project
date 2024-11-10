@@ -1,0 +1,68 @@
+<p-toast />
+<div class="flex align-items-center justify-content-between mb-5 gap-5">
+    <h4>Profile utilisateur</h4>
+    <div>
+        <p-button label="Annuler" icon="pi pi-times" class="m-1" [disabled]="!profileForm.dirty" (onClick)="refresh()"/>
+        <p-button label="Sauvegarder" icon="pi pi-save" class="m-1" [disabled]="!profileForm.dirty" (onClick)="sauvegarder()"/>
+    </div>
+</div>
+<div>
+    <form class="form" [formGroup]="profileForm">
+        <p-panel header="Informations de base" class="line-height-3 m-0">
+            <div class="grid">
+                <div class="col-2">
+                    <div class="text-center mb-5">
+                        <p-image
+                            [src]="account().imageUrl ?? '/assets/demo/images/avatar/profile.png'"
+                            [previewImageSrc]="account().imageUrl ?? '/assets/demo/images/avatar/profile.png'"
+                            alt="Image profile"
+                            [preview]="true"
+                            height="120"
+                        />
+                        <div class="font-bold text-2xl">{{ account().firstName }} {{ account().lastName }}</div>
+                        <div class="text-900 font-medium">{{ account().email }}</div>
+                        <div class="text-900 font-medium">{{ account().username }}</div>
+                        <p-button label="Mot de passe" (click)="changerPassword()" [rounded]="true" severity="secondary" raised icon="pi pi-lock" class="mt-2"/>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="grid">
+                        <div class="col">
+                            <label for="firstName" class="block text-900 text-xl font-medium mb-2">Nom</label>
+                            <input id="firstName" type="text" placeholder="Nom" formControlName="firstName" pInputText class="w-full md:w-34rem mb-2" style="padding:1rem"/>
+                        </div>
+
+                        <div class="col">
+                            <label for="lastName" class="block text-900 text-xl font-medium mb-2">Prénom</label>
+                            <input id="lastName" type="text" placeholder="Prénom" formControlName="lastName" pInputText class="w-full md:w-34rem mb-2" style="padding:1rem"/>
+                        </div>
+                    </div>
+
+                    <div class="grid">
+                        <div class="col">
+                            <label for="telephone" class="block text-900 text-xl font-medium mb-2">Téléphone</label>
+                            <input id="telephone" type="text" placeholder="Téléphone" formControlName="telephone" readonly pInputText class="w-full md:w-34rem mb-2" style="padding:1rem"/>
+                        </div>
+
+                        <div class="col">
+                            <label for="email" class="block text-900 text-xl font-medium mb-2">E-mail</label>
+                            <input id="email" type="text" placeholder="E-mail" formControlName="email" readonly pInputText class="w-full md:w-34rem mb-2" style="padding:1rem"/>
+                        </div>
+                    </div>
+
+                    <div class="grid">
+                        <div class="col">
+                            <label for="role" class="block text-900 text-xl font-medium mb-2">Role</label>
+                            <input id="role" type="text" placeholder="Role" [value]="account().roles[0].roleName" readonly pInputText class="w-full md:w-34rem mb-2" style="padding:1rem"/>
+                        </div>
+
+                        <div class="col">
+                            <label for="createAt" class="block text-900 text-xl font-medium mb-2">Créer le</label>
+                            <input id="createAt" type="text" placeholder="Date création" value="2024/10/28" readonly pInputText class="w-full md:w-34rem mb-2" style="padding:1rem"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </form>
+</div>

@@ -25,6 +25,7 @@
 		<module>api-core</module>
 		<module>discovery-server</module>
 		<module>gateway-server</module>
+		<module>auth-manager</module>
 	</modules>
 	<scm>
 		<connection/>
@@ -44,6 +45,12 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>fr.app.seni</groupId>
+				<artifactId>api-core</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>

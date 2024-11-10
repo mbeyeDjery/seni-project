@@ -1,0 +1,50 @@
+<p-messages [(value)]="messages" [enableService]="false" [closable]="false"/>
+<form class="form" (ngSubmit)="save()" [formGroup]="editForm">
+    <div class="formgrid grid" style="width:500px;">
+        <div class="field col-12">
+            <label for="userName" class="text-900 font-medium">Login</label>
+            <input id="userName" type="text" placeholder="Nom de connexion" formControlName="userName" [readOnly]="appUser" class="surface-overlay p-3 mb-3 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" style="padding:1rem">
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="firstName" class="text-900 font-medium">Nom</label>
+            <input id="firstName" type="text" placeholder="Nom" formControlName="firstName" class="surface-overlay p-3 mb-3 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" style="padding:1rem">
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="lastName" class="text-900 font-medium">Prénom</label>
+            <input id="lastName" type="text" placeholder="Prénom" formControlName="lastName" class="surface-overlay p-3 mb-3 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" style="padding:1rem">
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="telephone" class="text-900 font-medium">Téléphone</label>
+            <input id="telephone" type="text" placeholder="Téléphone" formControlName="telephone" [readOnly]="appUser" class="surface-overlay p-3 mb-3 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" style="padding:1rem">
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="email" class="text-900 font-medium">E-mail</label>
+            <input id="email" type="text" placeholder="Nom" formControlName="email" [readOnly]="appUser" class="surface-overlay p-3 mb-3 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" style="padding:1rem">
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="role" class="text-900 font-medium">Role</label>
+            <select id="role" formControlName="role" class="surface-overlay p-3 mb-3 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" style="appearance: auto">
+                <option>ROLE_SUPER_ADMIN</option>
+                <option>ROLE_GESTIONNAIRE</option>
+            </select>
+        </div>
+        <div class="field col-12 md:col-6">
+            <label for="enable" class="text-900 font-medium">Etat</label>
+            <p-selectButton id="enable" [options]="enableds" formControlName="enabled" optionLabel="label" optionValue="value" />
+        </div>
+
+    </div>
+    <hr>
+    <div class="flex align-items-center justify-content-center">
+        @if (!isLoading()){
+            <button type="button" pButton pRipple label="Fermer" icon="pi pi-times" class="w-8rem p-3 mr-2 text-xl" severity="warning" (click)="cancel()"></button>
+            <button type="submit" pButton pRipple label="Sauvegarder" icon="pi pi-save" class="w-11rem p-3 text-xl" [disabled]="editForm.invalid || isLoading()"></button>
+        } @else {
+            <p-progressSpinner
+                styleClass="w-2rem h-2rem"
+                strokeWidth="8"
+                fill="var(--surface-ground)"
+                animationDuration=".5s" />
+            }
+    </div>
+</form>

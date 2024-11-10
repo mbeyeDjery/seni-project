@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: auth-manager
+  profiles:
+    active: dev
+  jpa:
+    database: POSTGRESQL
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_BD:senibd}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PWD:postgres}
+    driverClassName: org.postgresql.Driver
+  sql:
+    init:
+      platform: postgres
+  security:
+    oauth2:
+      resource server:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER:http://localhost:1200/realms/seni_manager}
+          jwk-set-uri: ${JWT_SET_URI:http://localhost:1200/realms/seni_manager/protocol/openid-connect/certs}
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: ${DISCOVERY_SERVER_HOST:http://localhost:8761/eureka/}
+server:
+  port: 6700
+seni-app:
+  keycloak:
+    realm: ${KEYCLOAK_REALM:seni_manager}
+    clientId: ${KEYCLOAK_CLIENT:auth_manager}
+    host: ${KEYCLOAK_HOST:http://localhost:1200}
+    clientSecret: ${KEYCLOAK_SECRET:QJVxAaoFYuTF15tthIvu2TfmvNAMa5Nv}
+    authBaseUrl: ${KEYCLOAK_AUTH_URL:http://localhost:1200/realms/seni_manager/protocol/openid-connect}
