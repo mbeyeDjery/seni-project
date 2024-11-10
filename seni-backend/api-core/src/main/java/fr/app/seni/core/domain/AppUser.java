@@ -11,7 +11,7 @@ import lombok.ToString;
 @Entity
 @ToString
 @Table(name = "app_user")
-public class AppUser {
+public class AppUser extends AbstractAuditingEntity {
     @Id
     @Column(name = "id_user", nullable = false, length = 254)
     private String idUser;
