@@ -1,0 +1,22 @@
+name: seni-project
+services:
+  seni-keycloak:
+    image: quay.io/keycloak/keycloak:25.0.4
+    container_name: seni-keycloak
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: ${KEYCLOAK_PORT}
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    volumes:
+      - ./realm_config:/opt/keycloak/data/import
+#
+    command: "start-dev --import-realm"
+    ports:
+      - 1200:8080

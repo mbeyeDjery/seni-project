@@ -14,7 +14,7 @@ spring:
           use_jdbc_metadata_defaults: false
         dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_BD:senibd}
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5454}/${POSTGRES_BD:senibd}
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PWD:postgres}
     driverClassName: org.postgresql.Driver
@@ -42,5 +42,5 @@ seni-app:
     realm: ${KEYCLOAK_REALM:seni_manager}
     clientId: ${KEYCLOAK_CLIENT:auth_manager}
     host: ${KEYCLOAK_HOST:http://localhost:1200}
-    clientSecret: ${KEYCLOAK_SECRET:QJVxAaoFYuTF15tthIvu2TfmvNAMa5Nv}
+    clientSecret: ${KEYCLOAK_SECRET:o7HwXB6oQIYB8IEXA9AgTWjWwls6isqG}
     authBaseUrl: ${KEYCLOAK_AUTH_URL:http://localhost:1200/realms/seni_manager/protocol/openid-connect}

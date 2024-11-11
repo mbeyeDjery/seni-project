@@ -1,0 +1,23 @@
+name: seni-project
+services:
+  seni-postgres:
+    extends:
+      file: ../docker_service/postgres.yml
+      service: seni-postgres
+    networks:
+      - seni-network
+  seni-keycloak:
+    extends:
+      file: ../docker_service/keycloak.yml
+      service: seni-keycloak
+    networks:
+      - seni-network
+  seni-axon-server:
+    extends:
+      file: ../docker_service/axon-server.yml
+      service: seni-axon-server
+    networks:
+      - seni-network
+networks:
+  seni-network:
+    driver: bridge

@@ -25,7 +25,8 @@
 		<module>api-core</module>
 		<module>discovery-server</module>
 		<module>gateway-server</module>
-		<module>auth-manager</module>
+		<module>module-auth</module>
+		<module>module-etablissement</module>
 	</modules>
 	<scm>
 		<connection/>

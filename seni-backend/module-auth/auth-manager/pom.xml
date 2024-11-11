@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>auth-manager</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -51,5 +52,28 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>auth-manager</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>fr.app.seni.auth.manager.AuthManager</mainClass>
+                    <executable>true</executable>
+                    <layout>JAR</layout>
+                    <skip>false</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
