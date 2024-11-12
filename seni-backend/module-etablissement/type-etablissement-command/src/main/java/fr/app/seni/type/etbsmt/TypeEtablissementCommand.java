@@ -1,4 +1,4 @@
-package fr.app.seni.type.etbsmt.command;
+package fr.app.seni.type.etbsmt;
 
 import fr.app.seni.core.config.AxonConfig;
 import org.springframework.boot.SpringApplication;

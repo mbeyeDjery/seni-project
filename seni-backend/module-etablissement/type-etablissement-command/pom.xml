@@ -41,7 +41,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>fr.app.seni.etablissement.EtablissementCommand</mainClass>
+                    <mainClass>fr.app.seni.type.etbsmt.TypeEtablissementCommand</mainClass>
                     <executable>true</executable>
                     <layout>JAR</layout>
                     <skip>false</skip>
