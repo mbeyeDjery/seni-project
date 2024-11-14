@@ -14,7 +14,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.6.2/mapstruct-1.6.2.jar" />
         </processorPath>
         <module name="gateway-server" />
-        <module name="type-etablissement-command" />
+        <module name="config-server" />
         <module name="api-core" />
         <module name="discovery-server" />
         <module name="auth-manager" />
@@ -22,9 +22,11 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="auth-server" target="21" />
+      <module name="module-etablissement" target="21" />
       <module name="msx-auth-manager" target="21" />
       <module name="msx-etablissement-command" target="21" />
       <module name="msx-etablissement-commande" target="21" />
+      <module name="type-etablissement-command" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -32,6 +34,7 @@
       <module name="api-core" options="-parameters" />
       <module name="auth-manager" options="-parameters" />
       <module name="auth-server" options="-parameters" />
+      <module name="config-server" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
       <module name="gateway-server" options="-parameters" />
       <module name="module-auth" options="-parameters" />

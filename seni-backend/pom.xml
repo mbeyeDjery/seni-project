@@ -26,8 +26,8 @@
 		<module>discovery-server</module>
 		<module>gateway-server</module>
 		<module>module-auth</module>
-		<module>module-etablissement</module>
-	</modules>
+        <module>config-server</module>
+    </modules>
 	<scm>
 		<connection/>
 		<developerConnection/>

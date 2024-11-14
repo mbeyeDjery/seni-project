@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: dev
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://${HOME}/Projets/IntelliJ IDEA/Spring Framework/seni-project/docker_service/config-server
+          default-label : master
+server:
+  port: 8888

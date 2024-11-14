@@ -3,7 +3,7 @@
   <component name="JpaBuddyIdeaProjectConfig" newRepositoryParent="org.springframework.data.jpa.repository.JpaRepository">
     <option name="defaultUnitInitialized" value="true" />
     <option name="renamerInitialized" value="true" />
-    <option name="reverseEngineeringLastDbConnectionId" value="2df20872-8f04-4eef-ac02-3ef5bf32de98__senibd_public" />
+    <option name="reverseEngineeringLastDbConnectionId" value="a3d91818-db0c-4991-a307-beda6da293e8__senibd_public" />
     <option name="reLastEntityCreationPackage" value="seni-backend/api-core/src/main/java/fr/app/seni/core/domain" />
   </component>
 </project>
