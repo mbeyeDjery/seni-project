@@ -6,6 +6,4 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface TypeHopitalMapper extends EntityMapper<TypeHopitalDto, TypeHopital> {
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    TypeHopital partialUpdate(TypeHopitalDto typeHopitalDto, @MappingTarget TypeHopital typeHopital);
 }

@@ -1,4 +1,7 @@
 package fr.app.seni.core.cqrs;
 
-public record AggregateCreatedResponse(String aggregateId) {
+import lombok.Builder;
+
+@Builder
+public record AggregateCreatedResponse(String id, String message) {
 }

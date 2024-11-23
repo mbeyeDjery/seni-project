@@ -42,7 +42,7 @@ public class UserController {
             appUserDto.setGroupe(AppUserGroup.MANAGER);
             appUserDto = appUserService.create(appUserDto);
             appUserDto.setRoles(keycloakService.getUserRole(appUserDto.getIdUser()));
-            return ResponseEntity.ok(appUserDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(appUserDto);
         }
     }
 

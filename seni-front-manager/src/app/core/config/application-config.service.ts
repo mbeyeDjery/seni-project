@@ -10,7 +10,7 @@ export class ApplicationConfigService {
         //     return `${BACKEND_URL_RESOURCE}/${microservice}/${BACKEND_SUFFIX}${api}`;
         // }
         // return `${BACKEND_URL_RESOURCE}/${BACKEND_SUFFIX}${api}`;
-        console.warn(`${BACKEND_URL_RESOURCE}/${microservice}/${BACKEND_SUFFIX}${api}`)
+        // console.warn(`${BACKEND_URL_RESOURCE}/${microservice}/${BACKEND_SUFFIX}${api}`)
         return `${BACKEND_URL_RESOURCE}/${microservice}/${BACKEND_SUFFIX}${api}`;
         // return `${BACKEND_URL_RESOURCE}/${BACKEND_SUFFIX}${api}`;
     }

@@ -24,6 +24,24 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
+                label: 'Hopital',
+                icon: 'pi pi-fw pi-briefcase',
+                items: [
+                    { label: 'Type d\'hopitaux', icon: 'pi pi-fw pi-list', routerLink: ['hopital-manage/type-hopital'] },
+                    {
+                        label: 'Gestion des hopitaux',
+                        icon: 'pi pi-fw pi-home',
+                        items: [
+                            {
+                                label: 'Liste des hopitaux',
+                                icon: 'pi pi-fw pi-list',
+                                routerLink: ['hopital-manage/hopital']
+                            },
+                        ]
+                    },
+                ]
+            },
+            {
                 label: 'Parametrage',
                 icon: 'pi pi-fw pi-briefcase',
                 items: [

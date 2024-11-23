@@ -4,8 +4,8 @@ import {map, Observable} from "rxjs";
 import {AuthStorageService} from "./auth-storage.service";
 import {ApplicationConfigService} from "../../config/application-config.service";
 import {AUTH_MANAGER_SERVER} from "../../utils/constants";
-import {AuthResponse} from "../../model/auth-response-model";
-import {AuthRequest} from "../../model/auth-request-model";
+import {IAuthResponse} from "../../model/auth-response-model";
+import {IAuthRequest} from "../../model/auth-request-model";
 
 @Injectable({
   providedIn: 'root'
@@ -16,19 +16,19 @@ export class AuthProviderService {
   private applicationConfigService = inject(ApplicationConfigService);
   private serverApiUrl = this.applicationConfigService.getEndpointFor('/auth', AUTH_MANAGER_SERVER);
 
-  getToken(): AuthResponse | null {
+  getToken(): IAuthResponse | null {
     return this.stateStorageService.getAuthenticationToken() ?? null;
   }
 
-  login(authRequest: AuthRequest): Observable<void> {
+  login(authRequest: IAuthRequest): Observable<void> {
     return this.http
-        .post<AuthResponse>(`${this.serverApiUrl}/login`, authRequest)
+        .post<IAuthResponse>(`${this.serverApiUrl}/login`, authRequest)
         .pipe(map(response => this.authenticateSuccess(response, authRequest.rememberMe)));
   }
 
-  refreshToken(authRequest: AuthRequest): Observable<void> {
+  refreshToken(authRequest: IAuthRequest): Observable<void> {
     return this.http
-        .post<AuthResponse>(`${this.serverApiUrl}/refresh`, authRequest)
+        .post<IAuthResponse>(`${this.serverApiUrl}/refresh`, authRequest)
         .pipe(map(response => this.authenticateSuccess(response, authRequest.rememberMe)));
   }
 
@@ -39,7 +39,7 @@ export class AuthProviderService {
     });
   }
 
-  private authenticateSuccess(response: AuthResponse, rememberMe: boolean): void {
+  private authenticateSuccess(response: IAuthResponse, rememberMe: boolean): void {
     this.stateStorageService.storeAuthenticationToken(response, rememberMe);
   }
 }

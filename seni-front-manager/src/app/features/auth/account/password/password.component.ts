@@ -8,6 +8,7 @@ import {Message} from "primeng/api";
 import {MessagesModule} from "primeng/messages";
 import {AccountService} from "../../../../core/services/account.service";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {NgxSpinnerComponent, NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: 'app-password',
@@ -19,7 +20,8 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
         ButtonModule,
         ToastModule,
         MessagesModule,
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        NgxSpinnerComponent
     ],
   templateUrl: './password.component.html',
   styles: ``
@@ -27,8 +29,8 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
 export class PasswordComponent {
 
     messages: Message[] | undefined;
-    isLoading = signal(false);
     private accountService = inject(AccountService);
+    protected ngxSpinnerService = inject(NgxSpinnerService);
     private dialogPassword = inject(DynamicDialogRef);
 
     passwordForm = new FormGroup({
@@ -37,11 +39,7 @@ export class PasswordComponent {
         newPasswordConfirm: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(4)] }),
     });
     changePassword(){
-        this.isLoading.set(true);
-
-        // if (this.passwordForm.getRawValue().oldPassword === this.passwordForm.getRawValue().newPassword){
-        //     this.messages = [{severity: 'error', detail: 'Veuillez entrer un mot de passe different de l\'ancien'}];
-        // }else
+        this.ngxSpinnerService.show();
         if (this.passwordForm.getRawValue().newPassword != this.passwordForm.getRawValue().newPasswordConfirm){
             this.messages = [{severity: 'error', detail: 'Les nouveaux mot de passe ne correspondent pas'}];
         }else {
@@ -51,7 +49,7 @@ export class PasswordComponent {
                         this.dialogPassword.close(true);
                     },
                     error: (err) => {
-                        this.isLoading.set(false);
+                        this.ngxSpinnerService.hide();
                         this.messages = [{severity: 'error', detail: 'Erreur lors de changement de mot de passe'}];
                     },
                 });

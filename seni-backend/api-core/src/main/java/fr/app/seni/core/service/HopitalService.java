@@ -34,4 +34,12 @@ public class HopitalService {
     public List<HopitalDto> findAll(){
         return hopitalRepository.findAll().stream().map(hopitalMapper::toDto).collect(Collectors.toList());
     }
+
+    public HopitalDto findOne(String idHopital){
+        try {
+            return hopitalMapper.toDto(hopitalRepository.findById(idHopital).get());
+        }catch (Exception e) {
+            return null;
+        }
+    }
 }

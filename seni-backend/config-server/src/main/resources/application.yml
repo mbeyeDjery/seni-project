@@ -7,7 +7,7 @@ spring:
     config:
       server:
         git:
-          uri: file://${HOME}/Projets/IntelliJ IDEA/Spring Framework/seni-project/docker_service/config-server
+          uri: file://${HOME}/Projets/IntelliJ IDEA/config-server/seni-project
           default-label : master
 server:
   port: 8888

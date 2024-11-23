@@ -6,13 +6,12 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import {Router, RouterLink} from '@angular/router';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {LoginService} from "../../../core/services/auth/login.service";
 import {UserService} from "../../../core/services/auth/user.service";
 import {MessagesModule} from "primeng/messages";
 import {Message} from "primeng/api";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
-import {AuthRequest} from "../../../core/model/auth-request-model";
+import {IAuthRequest} from "../../../core/model/auth-request-model";
 
 @Component({
     selector: 'app-login',
@@ -29,7 +28,6 @@ import {AuthRequest} from "../../../core/model/auth-request-model";
     imports: [InputTextModule, PasswordModule, FormsModule, ReactiveFormsModule, CheckboxModule, ButtonModule, MessagesModule, RouterLink, ProgressSpinnerModule]
 })
 export class LoginComponent implements OnInit, AfterViewInit {
-    authResquest: AuthRequest;
     messages: Message[] | undefined;
     isLoading = signal(false);
     username = viewChild.required<ElementRef>('username');
@@ -41,7 +39,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     });
 
     private router = inject(Router);
-    private _httpClient = inject(HttpClient);
     private userService = inject(UserService);
     private loginService = inject(LoginService);
     public layoutService = inject(LayoutService);
@@ -49,7 +46,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.userService.identity().subscribe(() => {
             if (this.userService.isAuthenticated()) {
-                this.router.navigate(['/#']);
+                this.router.navigate(['/#']).then();
             }
         });
     }
@@ -60,23 +57,22 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     login(): void {
         this.isLoading.set(true);
-        this.authResquest = {
-            username: this.loginForm.getRawValue().username,
-            password: this.loginForm.getRawValue().password,
-            token: '',
-            rememberMe: this.loginForm.getRawValue().rememberMe,
-        };
-        this.loginService.login(this.authResquest).subscribe({
+        this.loginService.login(this.loginForm.getRawValue() as IAuthRequest).subscribe({
             next: () => {
                 this.isLoading.set(false);
                 if (!this.router.getCurrentNavigation()) {
-                    window.location.replace("/#");
+                    window.location.href = '/#';
                 }
-                window.location.replace("/#");
+                window.location.href = '/#';
             },
             error: (err) => {
+                console.warn(err['message']);
                 this.isLoading.set(false);
-                this.messages = [{severity: 'error', detail: err['error']['message']}];
+                if (`${err['message'].toString()}`.includes('Unknown Error')){
+                    this.messages = [{severity: 'error', detail: 'Erreur serveur'}];
+                }else {
+                    this.messages = [{severity: 'error', detail: err['error']['message']}];
+                }
             },
         });
     }

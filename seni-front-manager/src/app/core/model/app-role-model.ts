@@ -1,4 +1,4 @@
-export interface AppRole {
+export interface IAppRole {
     roleId: string;
     roleName: string;
 }

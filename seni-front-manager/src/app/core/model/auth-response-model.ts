@@ -1,6 +1,6 @@
-import {AppRole} from "./app-role-model";
+import {IAppRole} from "./app-role-model";
 
-export interface AuthResponse {
+export interface IAuthResponse {
     accessToken: string;
     expiresIn: number;
     refreshExpiresIn: number;
@@ -9,10 +9,10 @@ export interface AuthResponse {
     notBeforePolicy: number;
     sessionState: string;
     scope: string;
-    roles: AppRole[];
+    roles: IAppRole[];
 }
-export function convertToAuthResponse(val: any): AuthResponse {
-    let authResponse: AuthResponse;
+export function convertToAuthResponse(val: any): IAuthResponse {
+    let authResponse: IAuthResponse;
     return authResponse = {
         accessToken: val['access_token'],
         expiresIn: null,

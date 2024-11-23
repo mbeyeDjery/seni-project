@@ -1,5 +1,5 @@
-import {Component, inject, signal} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {Component, inject} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserService} from "../../../../core/services/auth/user.service";
 import {FieldsetModule} from "primeng/fieldset";
 import {PanelModule} from "primeng/panel";
@@ -8,47 +8,41 @@ import {CalendarModule} from "primeng/calendar";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
 import {ImageModule} from "primeng/image";
-import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {DialogService} from "primeng/dynamicdialog";
 import {PasswordComponent} from "../password/password.component";
 import {AccountService} from "../../../../core/services/account.service";
-import {AppUser, convertToAppUser} from "../../../../core/model/app-user-model";
+import {NgxSpinnerComponent, NgxSpinnerService} from "ngx-spinner";
+import {ProfileFormService} from "../../../../core/services/form-group/profile-form.service";
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   templateUrl: './profile.component.html',
     styles: ``,
-    imports: [FormsModule, ReactiveFormsModule, FieldsetModule, PanelModule, InputTextModule, CalendarModule, ToastModule, ImageModule],
+    imports: [FormsModule, ReactiveFormsModule, FieldsetModule, PanelModule, InputTextModule, CalendarModule, ToastModule, ImageModule, NgxSpinnerComponent],
     providers: [MessageService, DialogService]
 })
 export class ProfileComponent {
 
-    isLoading = signal(false);
     account = inject(UserService).trackCurrentAccount();
-
     protected dialogService = inject(DialogService);
     protected accountService = inject(AccountService);
     protected messageService = inject(MessageService);
+    protected ngxSpinnerService = inject(NgxSpinnerService);
+    protected profileFormService = inject(ProfileFormService);
 
-    profileForm = new FormGroup({
-        firstName: new FormControl(this.account().firstName, { nonNullable: true, validators: [Validators.required, Validators.minLength(3)] }),
-        lastName: new FormControl(this.account().lastName, { nonNullable: true, validators: [Validators.required, Validators.minLength(3)] }),
-        email: new FormControl(this.account().email, { nonNullable: true, validators: [Validators.required, Validators.minLength(3)] }),
-        telephone: new FormControl(this.account().telephone, { nonNullable: true, validators: [Validators.required, Validators.minLength(3)] }),
-    });
+    profileForm = this.profileFormService.createProfileFormGroup(this.account());
 
     sauvegarder(){
-        this.isLoading.set(true);
-        console.warn(this.profileForm.getRawValue());
-        let appUser: AppUser = convertToAppUser(this.profileForm.getRawValue());
-        this.accountService.updateUser(appUser).subscribe(
+        this.ngxSpinnerService.show().then();
+        this.accountService.updateUser(this.profileFormService.getAppUser(this.profileForm)).subscribe(
             {
                 next: () => {
-                    this.isLoading.set(false);
-                    this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Profile sauvegardé' });
+                    this.ngxSpinnerService.hide().then();
+                    this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Profile sauvegardé' });
                 },
                 error: () => {
-                    this.isLoading.set(false);
+                    this.ngxSpinnerService.hide().then();
                     this.messageService.add({ severity: 'warn', summary: 'Erreur', detail: 'Erreur lors de la sauvegarde' });
                 },
             });
@@ -63,7 +57,7 @@ export class ProfileComponent {
 
         dialogPassword.onClose.subscribe((finish: boolean) => {
             if (finish) {
-                this.messageService.add({severity:'success', summary: 'Succès', detail:'Mot de passe modifié avec succès'});
+                this.messageService.add({severity:'info', summary: 'Succès', detail:'Mot de passe modifié avec succès'});
             }else {
                 this.messageService.add({severity:'warn', summary: 'Information', detail:'Opération avortée'});
             }

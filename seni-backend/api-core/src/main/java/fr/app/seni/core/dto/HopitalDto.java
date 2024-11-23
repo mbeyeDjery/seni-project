@@ -1,15 +1,16 @@
 package fr.app.seni.core.dto;
 
-import fr.app.seni.core.dto.TypeHopitalDto;
 import fr.app.seni.core.enums.HopitalStatus;
-import lombok.Value;
+import lombok.Builder;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * DTO for {@link fr.app.seni.core.domain.Hopital}
  */
-@Value
+@Data
+@Builder
 public class HopitalDto implements Serializable {
 
     String idHopital;

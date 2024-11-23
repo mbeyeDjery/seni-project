@@ -24,12 +24,16 @@ export const routes: Routes = [
                 },
                 canActivate: [UserRouteAccessService],
                 loadChildren: () => import('./features/user/user.route'),
-            }
+            },
+            {
+                path: 'hopital-manage',
+                loadChildren: () => import('./features/metier/hopital-manage/hopital-manage.route'),
+            },
         ]
     },
-    { path: 'error', component: ErrorComponent },
-    { path: 'access', component: AccessComponent },
-    { path: 'notfound', component: NotfoundComponent },
-    { path: 'login', component: LoginComponent },
+    { path: 'error', loadComponent: () => import('./shared/components/error/error.component').then(c => ErrorComponent) },
+    { path: 'access', loadComponent: () => import('./shared/components/access/access.component').then(c => AccessComponent) },
+    { path: 'notfound', loadComponent: () => import('./shared/components/notfound/notfound.component').then(c => NotfoundComponent) },
+    { path: 'login', loadComponent: () => import('./features/auth/login/login.component').then(c => LoginComponent) },
     { path: '**', redirectTo: '/login', pathMatch: "full" },
 ];

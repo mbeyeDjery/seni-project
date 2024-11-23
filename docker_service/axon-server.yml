@@ -9,6 +9,7 @@ services:
       - "8124:8124"
       - "8224:8224"
     environment:
+      - AXONIQ_AXONSERVER_NAME=Seni Event Store
       - AXONIQ_AXONSERVER_STANDALONE=true
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8024/actuator/health" ]

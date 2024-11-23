@@ -43,7 +43,7 @@ public class AccountController {
         currentAppUserDto.setLastName(appUserDto.getLastName());
         currentAppUserDto = keycloakService.updateUser(currentAppUserDto.getIdUser(), currentAppUserDto);
         currentAppUserDto.setGroupe(AppUserGroup.MANAGER);
-        return ResponseEntity.ok(appUserService.update(currentAppUserDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(appUserService.update(currentAppUserDto));
     }
 
     @PutMapping("/change-password")

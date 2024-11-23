@@ -1,14 +1,19 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MessagesModule} from "primeng/messages";
 import {Message} from "primeng/api";
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {SelectButtonModule} from "primeng/selectbutton";
-import {ButtonDirective} from "primeng/button";
+import {Button, ButtonDirective} from "primeng/button";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {AppUserService} from "../../../../core/services/app-user.service";
-import {AppUser} from "../../../../core/model/app-user-model";
+import {NgxSpinnerComponent, NgxSpinnerService} from "ngx-spinner";
+import {ProfileFormService} from "../../../../core/services/form-group/profile-form.service";
+import {IAppRole} from "../../../../core/model/app-role-model";
+import {DropdownModule} from "primeng/dropdown";
+import {AutoFocus} from "primeng/autofocus";
+import {IAuthority} from "../../../../core/model/enum/authority";
 
 @Component({
   selector: 'app-edit-manager',
@@ -20,92 +25,55 @@ import {AppUser} from "../../../../core/model/app-user-model";
         InputTextModule,
         SelectButtonModule,
         ButtonDirective,
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        NgxSpinnerComponent,
+        DropdownModule,
+        AutoFocus,
+        Button
     ],
   templateUrl: './edit-manager.component.html',
   styles: ``
 })
 export class EditManagerComponent implements OnInit{
 
-    appUser?: AppUser;
     messages: Message[] | undefined;
-    isLoading = signal(false);
     config = inject(DynamicDialogConfig);
     enableds: any[] = [{ label: 'Activer', value: true },{ label: 'Desactiver', value: false }];
 
-    editForm = new FormGroup({
-        userName: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(4)] }),
-        firstName: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(4)] }),
-        lastName: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(4)] }),
-        telephone: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(8), Validators.maxLength(8)] }),
-        role: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-        email: new FormControl('', { nonNullable: true, validators: [Validators.email] }),
-        enabled: new FormControl(true),
-
-    });
-
     protected appUserService = inject(AppUserService);
+    protected ngxSpinnerService = inject(NgxSpinnerService);
+    protected profileFormService = inject(ProfileFormService);
+    protected dialog = inject(DynamicDialogRef);
+
+    appRoles : IAppRole[] = Object.values(IAuthority).map(value => ({roleId: '', roleName:value}));
+    editForm = this.profileFormService.createUserFormGroup();
 
     ngOnInit(): void {
-        if (this.config.data){
-            this.appUser = this.config.data.appUser;
-            this.editForm.reset({
-                userName: this.appUser.username,
-                firstName: this.appUser.firstName,
-                lastName: this.appUser.lastName,
-                email: this.appUser.email,
-                telephone: this.appUser.telephone,
-                enabled: this.appUser.enabled,
-                role: this.appUser.roles[0].roleName
-            });
-        }else {
-            console.warn(this.editForm.getRawValue());
+        this.ngxSpinnerService.show().then();
+        if (this.config.data) {
+            this.editForm = this.profileFormService.createUserFormGroup(this.config.data.appUser);
         }
+        this.ngxSpinnerService.hide().then();
     }
 
-    private dialog = inject(DynamicDialogRef);
-
-    save(){
-        this.isLoading.set(true);
-        if (this.appUser){
-            this.appUser.firstName = this.editForm.getRawValue().firstName;
-            this.appUser.lastName = this.editForm.getRawValue().lastName;
-            this.appUser.enabled = this.editForm.getRawValue().enabled;
-            if (!this.appUser.roles[0].roleName.includes(this.editForm.getRawValue().role)){
-                this.appUser.roles[0].roleName = this.editForm.getRawValue().role;
-            }
-            this.appUserService.updateUser(this.appUser).subscribe({
-                next: (response) => {
-                    this.dialog.close(true);
-                }, error: (err) => {
-                    this.isLoading.set(false);
+    save(): void {
+        this.ngxSpinnerService.show().then();
+        const appUser = this.profileFormService.getAppUser(this.editForm);
+        if (this.editForm.getRawValue().nouvreau){
+            this.appUserService.updateUser(appUser).subscribe({
+                next: () => this.dialog.close(true),
+                error: (err) => {
+                    this.ngxSpinnerService.hide().then();
                     this.messages = [{severity: 'error', detail: err}];
                 }
             });
         }else {
-            this.appUser = {
-                username: this.editForm.getRawValue().userName,
-                password: '123456',
-                firstName: this.editForm.getRawValue().firstName,
-                lastName: this.editForm.getRawValue().lastName,
-                email: this.editForm.getRawValue().email,
-                telephone: this.editForm.getRawValue().telephone,
-                enabled: this.editForm.getRawValue().enabled,
-                imageUrl: '',
-                roles: [
-                    {
-                        roleId: null,
-                        roleName: this.editForm.getRawValue().role
-                    }
-                ]
-            };
-
-            this.appUserService.createUser(this.appUser).subscribe({
-                next: (response) => {
-                    this.dialog.close(true);
-                }, error: (err) => {
-                    this.isLoading.set(false);
-                    this.appUser = null;
+            appUser.password = '123456';
+            this.appUserService.createUser(appUser).subscribe({
+                next: () => this.dialog.close(true),
+                error: (err) => {
+                    this.ngxSpinnerService.hide().then();
+                    this.editForm = this.profileFormService.createUserFormGroup();
                     this.messages = [{severity: 'error', detail: err['error']['message']}];
                 }
             });

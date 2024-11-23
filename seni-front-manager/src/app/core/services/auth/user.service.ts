@@ -4,24 +4,24 @@ import {HttpClient} from "@angular/common/http";
 import {AuthStorageService} from "./auth-storage.service";
 import {Router} from "@angular/router";
 import {ApplicationConfigService} from "../../config/application-config.service";
-import {AppUser} from "../../model/app-user-model";
-import {AppRole} from "../../model/app-role-model";
+import {IAppUser} from "../../model/app-user-model";
+import {IAppRole} from "../../model/app-role-model";
 import {AUTH_MANAGER_SERVER} from "../../utils/constants";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private accountCache$?: Observable<AppUser> | null;
-  private userIdentity = signal<AppUser | null>(null);
-  private authenticationState = new ReplaySubject<AppUser | null>(1);
+  private accountCache$?: Observable<IAppUser> | null;
+  private userIdentity = signal<IAppUser | null>(null);
+  private authenticationState = new ReplaySubject<IAppUser | null>(1);
 
   private router = inject(Router);
   private http = inject(HttpClient);
   private stateStorageService = inject(AuthStorageService);
   private applicationConfigService = inject(ApplicationConfigService);
 
-  authenticate(identity: AppUser | null): void {
+  authenticate(identity: IAppUser | null): void {
     this.userIdentity.set(identity);
     this.authenticationState.next(this.userIdentity());
     if (!identity) {
@@ -29,7 +29,7 @@ export class UserService {
     }
   }
 
-  trackCurrentAccount(): Signal<AppUser | null> {
+  trackCurrentAccount(): Signal<IAppUser | null> {
     return this.userIdentity.asReadonly();
   }
 
@@ -41,13 +41,13 @@ export class UserService {
     if (!Array.isArray(authorities)) {
       authorities = [authorities];
     }
-    return userIdentity.roles.some((authority: AppRole) => authorities.includes(authority.roleName));
+    return userIdentity.roles.some((authority: IAppRole) => authorities.includes(authority.roleName));
   }
 
-  identity(force?: boolean): Observable<AppUser | null> {
+  identity(force?: boolean): Observable<IAppUser | null> {
     if (!this.accountCache$ || force) {
       this.accountCache$ = this.fetch().pipe(
-          tap((account: AppUser) => {
+          tap((account: IAppUser) => {
             this.authenticate(account);
             this.navigateToStoredUrl();
           }),
@@ -61,12 +61,12 @@ export class UserService {
     return this.userIdentity() !== null;
   }
 
-  getAuthenticationState(): Observable<AppUser | null> {
+  getAuthenticationState(): Observable<IAppUser | null> {
     return this.authenticationState.asObservable();
   }
 
-  private fetch(): Observable<AppUser> {
-    return this.http.get<AppUser>(this.applicationConfigService.getEndpointFor('/account', AUTH_MANAGER_SERVER));
+  private fetch(): Observable<IAppUser> {
+    return this.http.get<IAppUser>(this.applicationConfigService.getEndpointFor('/account', AUTH_MANAGER_SERVER));
   }
 
   private navigateToStoredUrl(): void {

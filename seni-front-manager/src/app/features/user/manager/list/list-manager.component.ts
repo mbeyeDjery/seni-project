@@ -1,7 +1,7 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {ConfirmationService, MessageService} from "primeng/api";
 import {AppUserService} from "../../../../core/services/app-user.service";
-import {JsonPipe, NgStyle} from "@angular/common";
+import {NgStyle} from "@angular/common";
 import {ToastModule} from "primeng/toast";
 import {ButtonModule} from "primeng/button";
 import {Table, TableModule} from "primeng/table";
@@ -11,7 +11,8 @@ import {TagModule} from "primeng/tag";
 import {DialogService} from "primeng/dynamicdialog";
 import {EditManagerComponent} from "../edit-manager/edit-manager.component";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
-import {AppUser} from "../../../../core/model/app-user-model";
+import {IAppUser} from "../../../../core/model/app-user-model";
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: 'app-list-manager',
@@ -29,7 +30,6 @@ import {AppUser} from "../../../../core/model/app-user-model";
             }
         }`,
     imports: [
-        JsonPipe,
         ToastModule,
         ButtonModule,
         NgStyle,
@@ -42,18 +42,19 @@ import {AppUser} from "../../../../core/model/app-user-model";
     ],
     providers: [MessageService, DialogService, ConfirmationService]
 })
-export class ListManagerComponent implements OnInit{
+export class ListManagerComponent implements OnInit {
 
-    appUsers?: AppUser[];
+    appUsers?: IAppUser[];
     searchValue: string | undefined;
-    isLoading = signal(true);
 
     protected dialogService = inject(DialogService);
     protected appUserService = inject(AppUserService);
     protected messageService = inject(MessageService);
+    protected ngxSpinnerService = inject(NgxSpinnerService);
     protected confirmationService = inject(ConfirmationService);
 
     ngOnInit(): void {
+        this.ngxSpinnerService.show();
         this.load();
     }
 
@@ -62,29 +63,31 @@ export class ListManagerComponent implements OnInit{
             {
                 next: (response) => {
                     this.appUsers = response;
-                    this.isLoading.set(false);
+                    this.ngxSpinnerService.hide();
                 }, error: (err) => {
-                    this.isLoading.set(false);
+                    this.ngxSpinnerService.hide();
+                    this.messageService.add({severity:'error', summary: 'Erreur', detail: 'Certaine données ne peuvent pas être chargées'});
                 }
             }
         );
     }
 
-    resetPassword(appUserSelect: AppUser){
+    resetPassword(appUserSelect: IAppUser){
         this.confirmationService.confirm({
             header: 'Etes vous sûr ?',
             message: 'Reinitialiser le mot de passe.',
             accept: () => {
-                this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Mot de passe renitialisé avec succès', life: 3000 });
+                this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Mot de passe renitialisé avec succès', life: 3000 });
             }
         });
     }
 
-    edit(appUserSelect: AppUser){
+    edit(appUserSelect: IAppUser){
         const dialog = this.dialogService.open(EditManagerComponent, {
             position: 'center',
             closable: false,
             closeOnEscape: false,
+            draggable: true,
             data: {
                 appUser: appUserSelect
             },
@@ -94,7 +97,7 @@ export class ListManagerComponent implements OnInit{
 
         dialog.onClose.subscribe((finish: boolean) => {
             if (finish) {
-                this.messageService.add({severity:'success', summary: 'Succès', detail:'Modification de compte effectuée avec succès'});
+                this.messageService.add({severity:'info', summary: 'Succès', detail:'Modification de compte effectuée avec succès'});
                 this.load();
             }else {
                 // this.messageService.add({severity:'warn', summary: 'Information', detail:'Modification de compte annulée'});
@@ -104,8 +107,9 @@ export class ListManagerComponent implements OnInit{
 
     nouveau(){
         const dialog = this.dialogService.open(EditManagerComponent, {
-            position: 'center',
             closable: false,
+            draggable: true,
+            position: 'center',
             closeOnEscape: false,
             header: 'Créer un nouveau gestionnaire',
             contentStyle: { overflow: 'auto' },
@@ -113,7 +117,7 @@ export class ListManagerComponent implements OnInit{
 
         dialog.onClose.subscribe((finish: boolean) => {
             if (finish) {
-                this.messageService.add({severity:'success', summary: 'Succès', detail:'Nouveau compte crée avec succès'});
+                this.messageService.add({severity:'info', summary: 'Succès', detail:'Nouveau compte crée avec succès'});
                 this.load();
             }else {
                 // this.messageService.add({severity:'warn', summary: 'Information', detail:'Création de compte annulée'});

@@ -1,4 +1,4 @@
-export interface AddRemoveRole {
+export interface IAddRemoveRole {
     idUser: string;
     roleName: string;
 }

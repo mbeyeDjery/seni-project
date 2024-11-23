@@ -9,6 +9,4 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface AppUserMapper extends EntityMapper<AppUserDto, AppUser> {
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    AppUser partialUpdate(AppUserDto appUserDto, @MappingTarget AppUser appUser);
 }

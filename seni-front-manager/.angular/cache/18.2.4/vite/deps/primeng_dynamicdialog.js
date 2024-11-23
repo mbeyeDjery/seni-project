@@ -1,23 +1,23 @@
 import {
   FocusTrap,
   FocusTrapModule
-} from "./chunk-4GLHNGNJ.js";
+} from "./chunk-7L7SBCS4.js";
 import {
   TimesIcon
-} from "./chunk-SZHSD3JI.js";
+} from "./chunk-T5YOWR6U.js";
 import {
   BaseIcon
-} from "./chunk-BKJHU6NK.js";
+} from "./chunk-U37KT3K2.js";
+import {
+  DomHandler
+} from "./chunk-QU7AFVGG.js";
 import {
   PrimeNGConfig,
   SharedModule,
   TranslationKeys,
   UniqueComponentId,
   zindexutils
-} from "./chunk-NHHCFMAA.js";
-import {
-  DomHandler
-} from "./chunk-QU7AFVGG.js";
+} from "./chunk-P5C26LYI.js";
 import {
   animate,
   animation,
@@ -25,7 +25,7 @@ import {
   transition,
   trigger,
   useAnimation
-} from "./chunk-ZZ2IK37T.js";
+} from "./chunk-QYWPSKGA.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -34,7 +34,7 @@ import {
   NgIf,
   NgStyle,
   isPlatformBrowser
-} from "./chunk-4OQGR7IY.js";
+} from "./chunk-MFAATHXL.js";
 import {
   ApplicationRef,
   ChangeDetectionStrategy,
@@ -93,14 +93,16 @@ import {
   ɵɵtextInterpolate,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-SXP25SM6.js";
-import "./chunk-PIQKY2LV.js";
-import "./chunk-SZQPEDTI.js";
+} from "./chunk-Y2IWRXIT.js";
+import "./chunk-XPU7EA6D.js";
+import "./chunk-QN5HDKTT.js";
 import {
-  Subject,
+  Subject
+} from "./chunk-MHK6ZZQX.js";
+import {
   __spreadProps,
   __spreadValues
-} from "./chunk-Q3R3BXB2.js";
+} from "./chunk-4MWRP73S.js";
 
 // node_modules/primeng/fesm2022/primeng-icons-windowmaximize.mjs
 var WindowMaximizeIcon = class _WindowMaximizeIcon extends BaseIcon {

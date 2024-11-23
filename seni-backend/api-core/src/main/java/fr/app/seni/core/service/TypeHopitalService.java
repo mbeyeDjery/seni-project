@@ -42,4 +42,8 @@ public class TypeHopitalService {
             return null;
         }
     }
+
+    public List<TypeHopitalDto> findByEnabled(Boolean enabled){
+        return typeHopitalRepository.findByEnabled(enabled).stream().map(typeHopitalMapper::toDto).collect(Collectors.toList());
+    }
 }

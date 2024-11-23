@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {LocalStorageService} from "../storage/local-storage.service";
 import {SessionStorageService} from "../storage/session-storage.service";
 import {SENI_ADMIN_AUTH_TOKEN, STORE_URL} from "../../utils/constants";
-import {AuthResponse, convertToAuthResponse} from "../../model/auth-response-model";
+import {IAuthResponse, convertToAuthResponse} from "../../model/auth-response-model";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class AuthStorageService {
     this.sessionStorageService.removeItem(STORE_URL);
   }
 
-  storeAuthenticationToken(authResponse: AuthResponse, rememberMe: boolean): void {
+  storeAuthenticationToken(authResponse: IAuthResponse, rememberMe: boolean): void {
     this.clearAuthenticationToken();
     if (rememberMe) {
       this.localStorageService.setItem(SENI_ADMIN_AUTH_TOKEN, JSON.stringify(authResponse));
@@ -33,7 +33,7 @@ export class AuthStorageService {
     }
   }
 
-  getAuthenticationToken(): AuthResponse | null {
+  getAuthenticationToken(): IAuthResponse | null {
     const authenticationToken = this.localStorageService.getItem(SENI_ADMIN_AUTH_TOKEN) ?? this.sessionStorageService.getItem(SENI_ADMIN_AUTH_TOKEN);
     return authenticationToken ? convertToAuthResponse(JSON.parse(authenticationToken)) : null;
   }
