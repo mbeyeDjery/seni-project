@@ -18,9 +18,9 @@
         <module name="discovery-server" />
         <module name="hopital-command" />
         <module name="hopital-query" />
-        <module name="type-hopital-query" />
+        <module name="parametre-command" />
         <module name="gateway-server" />
-        <module name="type-hopital-command" />
+        <module name="parametre-query" />
         <module name="auth-manager" />
       </profile>
     </annotationProcessing>
@@ -31,6 +31,8 @@
       <module name="msx-etablissement-command" target="21" />
       <module name="msx-etablissement-commande" target="21" />
       <module name="type-etablissement-command" target="21" />
+      <module name="type-hopital-command" target="21" />
+      <module name="type-hopital-query" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -46,9 +48,12 @@
       <module name="module-auth" options="-parameters" />
       <module name="module-etablissement" options="-parameters" />
       <module name="module-hopital" options="-parameters" />
+      <module name="module-parametre" options="-parameters" />
       <module name="msx-auth-manager" options="-parameters" />
       <module name="msx-etablissement-command" options="-parameters" />
       <module name="msx-etablissement-commande" options="-parameters" />
+      <module name="parametre-command" options="-parameters" />
+      <module name="parametre-query" options="-parameters" />
       <module name="seni-backend" options="-parameters" />
       <module name="type-etablissement-command" options="-parameters" />
       <module name="type-hopital-command" options="-parameters" />

@@ -19,6 +19,10 @@
     <file url="file://$PROJECT_DIR$/seni-backend/module-hopital/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/seni-backend/module-hopital/type-hopital-command/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/seni-backend/module-hopital/type-hopital-query/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/seni-backend/module-parametre/parametre-command/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/seni-backend/module-parametre/parametre-query/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/seni-backend/module-parametre/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/seni-backend/module-parametre/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/seni-backend/msx-auth-manager/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/seni-backend/msx-etablissement-command/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/seni-backend/msx-etablissement-commande/src/main/java" charset="UTF-8" />

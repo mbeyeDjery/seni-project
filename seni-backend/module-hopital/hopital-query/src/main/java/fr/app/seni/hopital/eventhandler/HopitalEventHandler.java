@@ -23,14 +23,14 @@ public class HopitalEventHandler {
     @EventHandler
     @Transactional
     protected void onCreatedEvent(HopitalCreatedEvent event) {
-        event.getHopitalDto().setIdHopital(event.getId());
-        hopitalService.create(event.getHopitalDto());
+        event.getHopital().setIdHopital(event.getId());
+        hopitalService.create(event.getHopital());
     }
 
     @EventHandler
     @Transactional
     protected void onUpdatedEvent(HopitalUpdatedEvent event) {
-        hopitalService.update(event.getHopitalDto());
+        hopitalService.update(event.getHopital());
     }
 
     @EventHandler
@@ -44,7 +44,7 @@ public class HopitalEventHandler {
     protected void onChangedStatusEvent(HopitalStatusChangedEvent event) {
         HopitalDto hopital = hopitalService.findOne(event.getId());
         if (hopital != null) {
-            hopital.setStatut(event.getHopitalStatus());
+            hopital.setStatut(event.getStatut());
             hopitalService.update(hopital);
         }
     }

@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class HopitalDto implements Serializable {
 
     String idHopital;
+    VilleDto ville;
     TypeHopitalDto typeHopital;
     String codeHopital;
     String nom;

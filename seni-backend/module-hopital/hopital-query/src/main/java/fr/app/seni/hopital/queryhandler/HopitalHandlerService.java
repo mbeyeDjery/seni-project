@@ -3,8 +3,8 @@ package fr.app.seni.hopital.queryhandler;
 
 import fr.app.seni.core.dto.HopitalDto;
 import fr.app.seni.core.service.HopitalService;
-import fr.app.seni.hopital.query.GetAllHopitalQuery;
-import fr.app.seni.hopital.query.GetHopitalByIdQuery;
+import fr.app.seni.hopital.query.hopital.GetAllHopitalQuery;
+import fr.app.seni.hopital.query.hopital.GetHopitalByIdQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.queryhandling.QueryHandler;

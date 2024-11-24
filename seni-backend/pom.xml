@@ -28,6 +28,7 @@
 		<module>module-auth</module>
         <module>config-server</module>
         <module>module-hopital</module>
+        <module>module-parametre</module>
     </modules>
 	<scm>
 		<connection/>

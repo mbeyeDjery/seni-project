@@ -19,15 +19,20 @@ public class Hopital {
     @Column(name = "id_hopital", nullable = false, length = 254)
     private String idHopital;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "idville", nullable = false)
+    private Ville ville;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "id_type_hopital", nullable = false)
     private TypeHopital typeHopital;
 
-    @Column(name = "code_hopital", length = 254)
+    @Column(name = "code_hopital", nullable = false, length = 254)
     private String codeHopital;
 
-    @Column(name = "nom", length = 254)
+    @Column(name = "nom", nullable = false, length = 254)
     private String nom;
 
     @Column(name = "sigle", length = 254)
@@ -42,7 +47,7 @@ public class Hopital {
     @Column(name = "addresse", length = 254)
     private String addresse;
 
-    @Column(name = "telephone", length = 254)
+    @Column(name = "telephone", nullable = false, length = 254)
     private String telephone;
 
     @Column(name = "mobile", length = 254)
@@ -63,8 +68,14 @@ public class Hopital {
     @Column(name = "latitude", length = 254)
     private String latitude;
 
+    @Column(name = "presentatopn", length = 254)
+    private String presentatopn;
+
+    @Column(name = "note", length = 254)
+    private String note;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "statut", length = 254)
+    @Column(name = "statut", nullable = false, length = 254)
     private HopitalStatus statut;
 
     @Column(name = "online")

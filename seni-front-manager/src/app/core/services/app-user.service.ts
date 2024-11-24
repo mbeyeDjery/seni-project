@@ -27,6 +27,7 @@ export class AppUserService {
     }
 
     getAllUsers(): Observable<IAppUser[]>{
+        console.warn(this.serverApiUrl);
         return this.http.get<IAppUser[]>(this.serverApiUrl);
     }
 

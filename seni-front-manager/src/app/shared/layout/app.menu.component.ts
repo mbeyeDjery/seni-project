@@ -56,6 +56,27 @@ export class AppMenuComponent implements OnInit {
                             },
                         ]
                     },
+                    {
+                        label: 'Localisation',
+                        icon: 'pi pi-map',
+                        items: [
+                            {
+                                label: 'Ville',
+                                icon: 'pi pi-map-marker',
+                                routerLink: ['user/manager/list']
+                            },
+                            {
+                                label: 'Région',
+                                icon: 'pi pi-map-marker',
+                                routerLink: ['user/manager/list']
+                            },
+                            {
+                                label: 'Province',
+                                icon: 'pi pi-map-marker',
+                                routerLink: ['user/manager/list']
+                            },
+                        ]
+                    },
                 ]
             },
         ];

@@ -7,10 +7,10 @@ import lombok.Getter;
 @Getter
 public class TypeHopitalUpdatedEvent extends BaseEvent<String> {
 
-    private TypeHopitalDto typeHopitalDto;
+    private final TypeHopitalDto typeHopital;
 
-    public TypeHopitalUpdatedEvent(String id, TypeHopitalDto typeHopitalDto) {
+    public TypeHopitalUpdatedEvent(String id, TypeHopitalDto typeHopital) {
         super(id);
-        this.typeHopitalDto = typeHopitalDto;
+        this.typeHopital = typeHopital;
     }
 }

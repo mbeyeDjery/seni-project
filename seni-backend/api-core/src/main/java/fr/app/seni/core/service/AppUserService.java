@@ -20,16 +20,16 @@ public class AppUserService {
     private final AppUserMapper appUserMapper;
     private final AppUserRepository appUserRepository;
 
-    public AppUserDto create(AppUserDto appUser) {
-        return appUserMapper.toDto(appUserRepository.save(appUserMapper.toEntity(appUser)));
+    public AppUserDto create(AppUserDto entity) {
+        return appUserMapper.toDto(appUserRepository.save(appUserMapper.toEntity(entity)));
     }
 
-    public AppUserDto update(AppUserDto appUser) {
-        return appUserMapper.toDto(appUserRepository.save(appUserMapper.toEntity(appUser)));
+    public AppUserDto update(AppUserDto entity) {
+        return appUserMapper.toDto(appUserRepository.save(appUserMapper.toEntity(entity)));
     }
 
-    public void delete(AppUserDto appUser) {
-        appUserRepository.delete(appUserMapper.toEntity(appUser));
+    public void delete(AppUserDto entity) {
+        appUserRepository.delete(appUserMapper.toEntity(entity));
     }
 
     public List<AppUserDto> findAll(AppUserGroup groupe){

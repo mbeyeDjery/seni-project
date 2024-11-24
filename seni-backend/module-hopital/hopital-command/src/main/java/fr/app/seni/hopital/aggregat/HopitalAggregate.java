@@ -30,18 +30,18 @@ public class HopitalAggregate {
 
     @CommandHandler
     public HopitalAggregate(CreateHopitalCommand command){
-        log.info("CreateHopitalCommand : {}", command.getHopitalDto());
+        log.info("CreateHopitalCommand : {}", command.getHopital());
         AggregateLifecycle.apply(new HopitalCreatedEvent(
                         command.getId(),
-                        command.getHopitalDto()
+                        command.getHopital()
                 ));
     }
 
     @EventSourcingHandler
     public void onCreatedEvent(HopitalCreatedEvent event){
-        log.info("HopitalCreatedEvent occured : {}", event.getHopitalDto());
+        log.info("HopitalCreatedEvent occured : {}", event.getHopital());
         this.id = event.getId();
-        this.hopitalDto = event.getHopitalDto();
+        this.hopitalDto = event.getHopital();
 
         AggregateLifecycle.apply(new HopitalStatusChangedEvent(
                 event.getId(),
@@ -51,32 +51,32 @@ public class HopitalAggregate {
 
     @CommandHandler
     public void changeHopitalStatusHandler(ChangeHopitalStatusCommand command){
-        log.info("ChangeStatusCommand : {}", command.getHopitalStatus());
+        log.info("ChangeStatusCommand : {}", command.getStatut());
         AggregateLifecycle.apply(new HopitalStatusChangedEvent(
                         command.getId(),
-                        command.getHopitalStatus()
+                        command.getStatut()
                 ));
     }
 
     @EventSourcingHandler
     public void onHopitalStatusChangedEvent(HopitalStatusChangedEvent event){
-        log.info("HopitalStatusChangedEvent occured : {}", event.getHopitalStatus());
-        this.hopitalDto.setStatut(event.getHopitalStatus());
+        log.info("HopitalStatusChangedEvent occured : {}", event.getStatut());
+        this.hopitalDto.setStatut(event.getStatut());
     }
 
     @CommandHandler
     public void updateHandler(UpdateHopitalCommand command){
-        log.info("UpdateHopitalCommand : {}", command.getHopitalDto());
+        log.info("UpdateHopitalCommand : {}", command.getHopital());
         AggregateLifecycle.apply(new HopitalUpdatedEvent(
                 command.getId(),
-                command.getHopitalDto()
+                command.getHopital()
         ));
     }
 
     @EventSourcingHandler
     public void onUpdatedEvent(HopitalUpdatedEvent event){
-        log.info("HopitalUpdatedEvent occured : {}", event.getHopitalDto());
-        this.hopitalDto = event.getHopitalDto();
+        log.info("HopitalUpdatedEvent occured : {}", event.getHopital());
+        this.hopitalDto = event.getHopital();
     }
 
     @CommandHandler

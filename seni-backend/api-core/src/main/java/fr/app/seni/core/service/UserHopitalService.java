@@ -16,15 +16,15 @@ public class UserHopitalService {
     private final UserHopitalMapper userHopitalMapper;
     private final UserHopitalRepository userHopitalRepository;
 
-    public UserHopitalDto create(UserHopitalDto userHopitalDto) {
-        return userHopitalMapper.toDto(userHopitalRepository.save(userHopitalMapper.toEntity(userHopitalDto)));
+    public UserHopitalDto create(UserHopitalDto entity) {
+        return userHopitalMapper.toDto(userHopitalRepository.save(userHopitalMapper.toEntity(entity)));
     }
 
-    public UserHopitalDto update(UserHopitalDto userHopitalDto) {
-        return userHopitalMapper.toDto(userHopitalRepository.save(userHopitalMapper.toEntity(userHopitalDto)));
+    public UserHopitalDto update(UserHopitalDto entity) {
+        return userHopitalMapper.toDto(userHopitalRepository.save(userHopitalMapper.toEntity(entity)));
     }
 
-    public void delete(UserHopitalDto userHopitalDto) {
-        userHopitalRepository.delete(userHopitalMapper.toEntity(userHopitalDto));
+    public void delete(UserHopitalDto entity) {
+        userHopitalRepository.delete(userHopitalMapper.toEntity(entity));
     }
 }

@@ -19,25 +19,25 @@ public class TypeHopitalService {
     private final TypeHopitalMapper typeHopitalMapper;
     private final TypeHopitalRepository typeHopitalRepository;
 
-    public TypeHopitalDto create(TypeHopitalDto typeHopitalDto) {
-        return typeHopitalMapper.toDto(typeHopitalRepository.save(typeHopitalMapper.toEntity(typeHopitalDto)));
+    public TypeHopitalDto create(TypeHopitalDto entity) {
+        return typeHopitalMapper.toDto(typeHopitalRepository.save(typeHopitalMapper.toEntity(entity)));
     }
 
-    public TypeHopitalDto update(TypeHopitalDto typeHopitalDto) {
-        return typeHopitalMapper.toDto(typeHopitalRepository.save(typeHopitalMapper.toEntity(typeHopitalDto)));
+    public TypeHopitalDto update(TypeHopitalDto entity) {
+        return typeHopitalMapper.toDto(typeHopitalRepository.save(typeHopitalMapper.toEntity(entity)));
     }
 
-    public void delete(TypeHopitalDto typeHopitalDto) {
-        typeHopitalRepository.delete(typeHopitalMapper.toEntity(typeHopitalDto));
+    public void delete(TypeHopitalDto entity) {
+        typeHopitalRepository.delete(typeHopitalMapper.toEntity(entity));
     }
 
     public List<TypeHopitalDto> findAll(){
         return typeHopitalRepository.findAll().stream().map(typeHopitalMapper::toDto).collect(Collectors.toList());
     }
 
-    public TypeHopitalDto findOne(String idTypeHopital){
+    public TypeHopitalDto findOne(String id){
         try {
-            return typeHopitalMapper.toDto(typeHopitalRepository.findById(idTypeHopital).get());
+            return typeHopitalMapper.toDto(typeHopitalRepository.findById(id).get());
         }catch (Exception e) {
             return null;
         }

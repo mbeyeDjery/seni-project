@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: type-hopital-command
-  cloud:
-    config:
-      uri: http://localhost:8888

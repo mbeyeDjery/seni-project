@@ -2,12 +2,14 @@ package fr.app.seni.hopital.service;
 
 
 import fr.app.seni.core.dto.HopitalDto;
-import fr.app.seni.hopital.query.GetAllHopitalQuery;
-import fr.app.seni.hopital.query.GetHopitalByIdQuery;
+import fr.app.seni.core.exception.CustomException;
+import fr.app.seni.hopital.query.hopital.GetAllHopitalQuery;
+import fr.app.seni.hopital.query.hopital.GetHopitalByIdQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,9 +29,15 @@ public class HopitalQueryService {
     }
 
     public HopitalDto findOne(String idTypeHopital) {
-        return queryGateway.query(
+        HopitalDto hopitalDto = queryGateway.query(
                 new GetHopitalByIdQuery(idTypeHopital),
                 ResponseTypes.instanceOf(HopitalDto.class)
         ).join();
+
+        if (hopitalDto == null){
+            throw new CustomException("Aucun élément correspondant", HttpStatus.NOT_FOUND);
+        }
+
+        return hopitalDto;
     }
 }

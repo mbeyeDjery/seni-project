@@ -7,10 +7,10 @@ import lombok.Getter;
 @Getter
 public class ChangeHopitalStatusCommand extends BaseCommand<String> {
 
-    private final HopitalStatus hopitalStatus;
+    private final HopitalStatus statut;
 
-    public ChangeHopitalStatusCommand(String id, HopitalStatus hopitalStatus) {
+    public ChangeHopitalStatusCommand(String id, HopitalStatus statut) {
         super(id);
-        this.hopitalStatus = hopitalStatus;
+        this.statut = statut;
     }
 }

@@ -12,8 +12,6 @@
     <artifactId>module-hopital</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>type-hopital-command</module>
-        <module>type-hopital-query</module>
         <module>hopital-command</module>
         <module>hopital-query</module>
     </modules>

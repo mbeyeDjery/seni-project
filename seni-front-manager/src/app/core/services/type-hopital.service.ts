@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ApplicationConfigService} from "../config/application-config.service";
-import {TYPE_HOPITAL_COMMAND, TYPE_HOPITAL_QUERY} from "../utils/constants";
+import {HOPITAL_COMMAND, HOPITAL_QUERY} from "../utils/constants";
 import {Observable} from "rxjs";
 import {ITypeHopital} from "../model/type-hopital-model";
 import {IAggregateCreateResponseModel} from "../model/aggregate-create-response-model";
@@ -13,8 +13,9 @@ export class TypeHopitalService {
 
   private http = inject(HttpClient);
   private applicationConfigService = inject(ApplicationConfigService);
-  private serverQuery = this.applicationConfigService.getEndpointFor('/query/type-hopital', TYPE_HOPITAL_QUERY);
-  private serverCommand = this.applicationConfigService.getEndpointFor('/manager/command/type-hopital', TYPE_HOPITAL_COMMAND);
+  private serverQuery = this.applicationConfigService.getEndpointFor('/query/type-hopital', HOPITAL_QUERY);
+  private serverCommand = this.applicationConfigService.getEndpointFor('/manager/command/type-hopital', HOPITAL_COMMAND);
+
 
   create(typeHopital: ITypeHopital): Observable<IAggregateCreateResponseModel> {
     return this.http.post<IAggregateCreateResponseModel>(this.serverCommand, typeHopital);
