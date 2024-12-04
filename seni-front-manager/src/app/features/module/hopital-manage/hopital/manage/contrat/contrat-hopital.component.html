@@ -1,0 +1,125 @@
+<p-toast />
+<p-confirmPopup />
+@if (contrats.length == 0){
+    <div class="text-700 text-center mt-5 mb-5">
+        <div class="text-900 font-bold text-3xl mb-3">Aucun contrat actif</div>
+        <div class="text-700 text-lg mb-3">Veuillez initier un contrat actif pour permetre à la structure d'exercer</div>
+        <button pButton pRipple (click)="nouveau()" size="small" label="Initier maintenant" icon="pi pi-file-edit" class="font-bold px-5 py-3 p-button-raised p-button-rounded white-space-nowrap"></button>
+    </div>
+} @else {
+    <div class="grid">
+        <div class="col-12 lg:col-3">
+            <div class="shadow-1 p-3 h-full flex flex-column surface-card" style="border-radius: 6px" *ngIf="!contratActif">
+            <div class="text-700 text-center mt-5 mb-5" *ngIf="!contratActif">
+                <div class="text-900 font-bold text-2xl mb-3">Aucun contrat actif</div>
+                <div class="text-700 text-lg mb-3">Veuillez initier un contrat actif pour permetre à la structure d'exercer</div>
+                <button pButton pRipple (click)="nouveau()" size="small" label="Initier" icon="pi pi-file-edit" class="font-bold px-5 py-3 p-button-raised p-button-rounded white-space-nowrap"></button>
+            </div>
+            </div>
+            <div class="shadow-1 p-3 h-full flex flex-column surface-card" style="border-radius: 6px" *ngIf="contratActif">
+                <div class="text-900 font-bold text-blue-600 text-xl mb-2">*Basic*</div>
+                <div class="text-600">Plan contractuel</div>
+                <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                <div class="flex align-items-center">
+                    <span class="font-bold text-2xl text-900">+398</span>
+                    <span class="ml-2 font-medium text-600">jours restants</span>
+                </div>
+                <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                <ul class="list-none p-0 m-0 flex-grow-1">
+                    <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-5 font-medium"><i class="pi pi-calendar-times text-green-500 mr-2"></i>Référence :</div>
+                        <div class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1">{{ contratActif.reference }}</div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-5 font-medium"><i class="pi pi-calendar-times text-green-500 mr-2"></i>Début :</div>
+                        <div class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1">{{ contratActif.dateDebut }}</div>
+                    </li>
+                    <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+                        <div class="text-500 w-6 md:w-5 font-medium"><i class="pi pi-calendar-times text-green-500 mr-2"></i>Début :</div>
+                        <div class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1">{{ contratActif.dateFin }}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-9">
+            <div class="surface-card p-4 shadow-1 border-round mb-3">
+                <div class="text-lg font-medium text-900 mb-3">Liste des contrats</div>
+                <p-table
+                    #table
+                    [value]="contrats"
+                    dataKey="idContrattHopital"
+                    [rows]="5"
+                    [rowsPerPageOptions]="[5, 10, 30]"
+                    [paginator]="true"
+                    [globalFilterFields]="['string', 'nom']"
+                    [rowHover]="true"
+                    [tableStyle]="{'min-width': '50rem'}"
+                    styleClass="p-datatable-striped p-datatable-sm">
+
+                    <ng-template pTemplate="caption">
+                        <div class="flex">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText placeholder="Filtrer"/>
+                            </span>
+                            <span class="p-input-icon-right ml-auto">
+                                <p-button (click)="nouveau()" icon="pi pi-plus" class="mr-2" size="small" label="Nouveau"/>
+                                <span><i class="p-toolbar-separator pi pi-ellipsis-v mr-2 mb-2" style="vertical-align: middle"></i></span>
+                                <p-button [outlined]="true" icon="pi pi-file-pdf" class="mr-2" size="small"/>
+                                <p-button [outlined]="true" icon="pi pi-file-excel" class="mr-2" size="small"/>
+                                <p-button title="Actualisaer la liste" [outlined]="true" icon="pi pi-sync" severity="warning" class="mr-2" (onClick)="reset(table)" size="small"/>
+                            </span>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="reference">
+                                <div class="flex align-items-center">
+                                    Référence
+                                    <p-sortIcon field="reference" />
+                                </div>
+                            </th>
+                            <th pSortableColumn="dateDebut">
+                                <div class="flex align-items-center">
+                                    Date début
+                                    <p-sortIcon field="dateDebut" />
+                                </div>
+                            </th>
+                            <th pSortableColumn="dateFin">
+                                <div class="flex align-items-center">
+                                    Date fin
+                                    <p-sortIcon field="dateFin" />
+                                </div>
+                            </th>
+                            <th pSortableColumn="statut">
+                                <div class="flex align-items-center">
+                                    Statut
+                                    <p-sortIcon field="statut" />
+                                </div>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-contrat>
+                        <tr>
+                            <td>{{ contrat.reference }}</td>
+                            <td>{{ contrat.dateDebut }}</td>
+                            <td>{{ contrat.dateFin }}</td>
+                            <td><p-tag [value]="contrat.statut" [severity]="getStatut(contrat.statut)" /></td>
+                            <td class="flex align-items-end justify-content-end">
+                                <p-button icon="pi pi-print" [outlined]="true" [text]="true"/>
+                                <p-button icon="pi pi-file-edit" [outlined]="true" [text]="true" (click)="editer(contrat)"/>
+                                <p-button (click)="confirmChabgeStatut($event, contrat)" [icon]="contrat.statut.includes('ACTIVATED') ? 'pi pi-ban' : 'pi pi-check-circle'" [outlined]="true" [text]="true" [severity]="contrat.statut.includes('ACTIVATED') ? 'danger' : 'success'"/>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+    <div class="surface-card p-4 shadow-2 border-round">
+
+    </div>
+}

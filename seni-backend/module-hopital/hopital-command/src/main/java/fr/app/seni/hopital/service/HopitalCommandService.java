@@ -2,10 +2,12 @@ package fr.app.seni.hopital.service;
 
 
 import fr.app.seni.core.cqrs.AggregateCreatedResponse;
+import fr.app.seni.core.cqrs.hopital.command.ChangeHopitalStatusCommand;
 import fr.app.seni.core.cqrs.hopital.command.CreateHopitalCommand;
 import fr.app.seni.core.cqrs.hopital.command.UpdateHopitalCommand;
 import fr.app.seni.core.cqrs.type_hopital.command.DeleteTypeHopitalCommand;
 import fr.app.seni.core.dto.HopitalDto;
+import fr.app.seni.core.dto.HopitalStatutRequest;
 import fr.app.seni.core.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +56,17 @@ public class HopitalCommandService {
             String response = commandGateway.sendAndWait(new DeleteTypeHopitalCommand(idHopital));
         }catch (Exception e){
             throw new CustomException("Erreur lors de la suppression", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public void changeStatus(HopitalStatutRequest hopitalStatutRequest) {
+        try {
+            String response = commandGateway.sendAndWait(new ChangeHopitalStatusCommand(
+                    hopitalStatutRequest.idHopital(),
+                    hopitalStatutRequest.statut()
+            ));
+        }catch (Exception e){
+            throw new CustomException("Erreur lors du chengement de statut", HttpStatus.BAD_REQUEST);
         }
     }
 }

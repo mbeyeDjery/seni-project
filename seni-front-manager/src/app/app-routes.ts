@@ -27,7 +27,11 @@ export const routes: Routes = [
             },
             {
                 path: 'hopital-manage',
-                loadChildren: () => import('./features/metier/hopital-manage/hopital-manage.route'),
+                loadChildren: () => import('./features/module/hopital-manage/hopital-manage.route'),
+            },
+            {
+                path: 'parametre',
+                loadChildren: () => import('./features/module/parametre/parametre.route'),
             },
         ]
     },

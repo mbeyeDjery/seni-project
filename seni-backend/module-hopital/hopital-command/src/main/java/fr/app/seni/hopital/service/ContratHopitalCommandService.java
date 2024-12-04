@@ -1,10 +1,12 @@
 package fr.app.seni.hopital.service;
 
 import fr.app.seni.core.cqrs.AggregateCreatedResponse;
+import fr.app.seni.core.cqrs.contrat_hopital.command.ChangeContratHopitalStatusCommand;
 import fr.app.seni.core.cqrs.contrat_hopital.command.CreateContratHopitalCommand;
 import fr.app.seni.core.cqrs.contrat_hopital.command.DeleteContratHopitalCommand;
 import fr.app.seni.core.cqrs.contrat_hopital.command.UpdateContratHopitalCommand;
 import fr.app.seni.core.dto.ContratHopitalDto;
+import fr.app.seni.core.dto.request.ContratStatutRequest;
 import fr.app.seni.core.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +54,17 @@ public class ContratHopitalCommandService {
             String response = commandGateway.sendAndWait(new DeleteContratHopitalCommand(id));
         }catch (Exception e){
             throw new CustomException("Erreur lors de la suppression", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public void changeStatus(ContratStatutRequest contratStatutRequest){
+        try {
+            String response = commandGateway.sendAndWait(new ChangeContratHopitalStatusCommand(
+                    contratStatutRequest.idContrattHopital(),
+                    contratStatutRequest.statut()
+            ));
+        }catch (Exception e){
+            throw new CustomException("Erreur lors de la modification du statut du contrat", HttpStatus.BAD_REQUEST);
         }
     }
 }

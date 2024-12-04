@@ -7,7 +7,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class TypeHopitalFormService {
 
-  createTypeHopitalFormGroup(typeHopital?: ITypeHopital){
+  createFormGroup(typeHopital?: ITypeHopital){
     return new FormGroup({
       idTypeHopital: new FormControl(typeHopital ? typeHopital.idTypeHopital : ''),
       enabled: new FormControl(typeHopital ? typeHopital.enabled : true),
@@ -16,7 +16,7 @@ export class TypeHopitalFormService {
     });
   }
 
-  getTypeHopital(form: FormGroup): ITypeHopital {
+  get(form: FormGroup): ITypeHopital {
     return form.getRawValue() as ITypeHopital;
   }
 }

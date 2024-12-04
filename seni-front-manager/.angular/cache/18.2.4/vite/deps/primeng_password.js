@@ -6,15 +6,15 @@ import {
   InputTextModule
 } from "./chunk-76OSQQE2.js";
 import {
-  AutoFocus,
-  AutoFocusModule
-} from "./chunk-RUNHNZRJ.js";
-import {
   TimesIcon
 } from "./chunk-T5YOWR6U.js";
 import {
   BaseIcon
 } from "./chunk-U37KT3K2.js";
+import {
+  AutoFocus,
+  AutoFocusModule
+} from "./chunk-RUNHNZRJ.js";
 import {
   ConnectedOverlayScrollHandler,
   DomHandler

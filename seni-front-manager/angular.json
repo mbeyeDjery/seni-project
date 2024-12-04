@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "my-template": {
+        "seni-manager": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -40,7 +40,7 @@
                     "builder": "@angular-devkit/build-angular:application",
                     "options": {
                         "outputPath": {
-                          "base": "dist/my-template"
+                          "base": "dist/seni-manager"
                         },
                         "index": "src/index.html",
                         "polyfills": [
@@ -88,10 +88,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "my-template:build:production"
+                            "buildTarget": "seni-manager:build:production"
                         },
                         "development": {
-                            "buildTarget": "my-template:build:development"
+                            "buildTarget": "seni-manager:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -99,7 +99,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "buildTarget": "my-template:build"
+                        "buildTarget": "seni-manager:build"
                     }
                 },
                 "test": {

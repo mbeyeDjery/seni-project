@@ -21,7 +21,7 @@ public class Hopital {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
-    @JoinColumn(name = "idville", nullable = false)
+    @JoinColumn(name = "id_ville", nullable = false)
     private Ville ville;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

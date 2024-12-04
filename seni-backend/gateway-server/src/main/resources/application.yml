@@ -20,12 +20,14 @@ spring:
               - GET
               - DELETE
               - PUT
+              - PATCH
               - OPTIONS
             allowedHeaders: "*"
             allowCredentials: true
 eureka:
   instance:
     prefer-ip-address: true
+    instance-id: ${spring.application.name}:${instanceId:${random.value}}
   client:
     registerWithEureka: true
     fetchRegistry: true

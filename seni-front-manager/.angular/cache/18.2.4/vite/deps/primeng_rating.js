@@ -1,10 +1,10 @@
 import {
+  BaseIcon
+} from "./chunk-U37KT3K2.js";
+import {
   AutoFocus,
   AutoFocusModule
 } from "./chunk-RUNHNZRJ.js";
-import {
-  BaseIcon
-} from "./chunk-U37KT3K2.js";
 import {
   DomHandler
 } from "./chunk-QU7AFVGG.js";

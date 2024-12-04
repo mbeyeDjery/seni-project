@@ -29,7 +29,7 @@ export class ProfileFormService {
     });
   }
 
-  getAppUser(form: FormGroup): IAppUser {
+  get(form: FormGroup): IAppUser {
     return form.getRawValue() as IAppUser;
   }
 }

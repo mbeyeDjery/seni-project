@@ -1,12 +1,12 @@
 import {
+  Tooltip,
+  TooltipModule
+} from "./chunk-WQ3WQXI4.js";
+import {
   RouterLink,
   RouterLinkActive,
   RouterModule
 } from "./chunk-65ITEVUE.js";
-import {
-  Tooltip,
-  TooltipModule
-} from "./chunk-WQ3WQXI4.js";
 import {
   Ripple,
   RippleModule

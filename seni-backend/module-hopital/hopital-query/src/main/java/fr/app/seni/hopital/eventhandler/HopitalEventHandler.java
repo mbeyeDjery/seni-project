@@ -24,6 +24,7 @@ public class HopitalEventHandler {
     @Transactional
     protected void onCreatedEvent(HopitalCreatedEvent event) {
         event.getHopital().setIdHopital(event.getId());
+        event.getHopital().getVille().setIdVille(event.getHopital().getVille().getIdVille());
         hopitalService.create(event.getHopital());
     }
 

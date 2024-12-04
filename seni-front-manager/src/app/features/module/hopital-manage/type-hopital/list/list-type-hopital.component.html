@@ -1,0 +1,135 @@
+<p-toast />
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true"><p style="color: white" > Veuillez patienter</p></ngx-spinner>
+<h4>Compte des types d'hopitaux</h4>
+
+<div class="grid">
+    <div class="col zoomin animation-duration-200">
+        <p-panel header="Edition de type">
+            <form class="form" (ngSubmit)="save()" [formGroup]="editForm">
+                <div class="field grid">
+                    <label for="enabled" class="text-900 font-medium col-10 mb-2 md:col-2 md:mb-0">Statut</label>
+                    <div class="col-12 md:col-10">
+                        <p-selectButton id="enabled" [options]="enableds" formControlName="enabled" optionLabel="label" optionValue="value" />
+                    </div>
+                </div>
+<!--                <div class="field grid">-->
+<!--                    <label for="id" class="text-900 font-medium col-10 mb-2 md:col-2 md:mb-0">Identifiant</label>-->
+<!--                    <div class="col-12 md:col-10">-->
+<!--                        <input id="id" type="text" placeholder="Identifiant du type" [readOnly]="true" formControlName="id" class="surface-overlay p-3 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" style="padding:1rem">-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="field grid">
+                    <label for="libelle" class="text-900 font-medium col-10 mb-2 md:col-2 md:mb-0">Libéllé</label>
+                    <div class="col-12 md:col-10">
+                        <input id="libelle" type="text" placeholder="Libéllé" formControlName="libelle" pInputText class="w-full md:w-34rem mb-2" style="padding:1rem">
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label for="desc" class="text-900 font-medium col-10 mb-2 md:col-2 md:mb-0">Description</label>
+                    <div class="col-12 md:col-10">
+                        <textarea id="desc" pInputTextarea placeholder="Description" formControlName="description" class="w-full md:w-34rem mb-2" style="padding:1rem"></textarea>
+                    </div>
+                </div>
+                <div class="flex align-items-end justify-content-end">
+                    <button type="button" pButton pRipple [outlined]="true" label="Annuler" icon="fa fa-home" class="mr-2" severity="warning" size="small" (click)="resetForm()" [disabled]="editForm.invalid"></button>
+                    <button type="submit" pButton pRipple label="Enregistrer" icon="pi pi-save" size="small" [disabled]="editForm.invalid"></button>
+                </div>
+            </form>
+        </p-panel>
+        <div class="card zoomin animation-duration-500 mt-3">
+            <p-table
+                #table
+                [value]="typeHopitals"
+                dataKey="idTypeHopital"
+                [rows]="5"
+                [rowsPerPageOptions]="[5, 10, 30]"
+                [paginator]="true"
+                [globalFilterFields]="['libelle', 'enabled']"
+                [rowHover]="true"
+                [tableStyle]="{'min-width': '50rem'}"
+                styleClass="p-datatable-striped p-datatable-sm"
+            >
+
+                <ng-template pTemplate="caption">
+                    <div class="flex">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText placeholder="Filtrer"  [(ngModel)]="searchValue" (input)="table.filterGlobal(searchValue, 'contains')"/>
+                        </span>
+
+                    <span class="p-input-icon-right ml-auto">
+                        <p-button [outlined]="true" icon="pi pi-file-pdf" class="mr-2" size="small"/>
+                        <p-button [outlined]="true" icon="pi pi-file-excel" class="mr-2" size="small"/>
+                        <p-button title="Actualisaer la liste" [outlined]="true" icon="pi pi-sync" severity="warning" class="mr-2" (onClick)="reset(table)" size="small"/>
+                    </span>
+                </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th></th>
+                        <th style="min-width:15rem" pSortableColumn="libelle">
+                            <div class="flex align-items-center">
+                                Libéllé
+                                <p-sortIcon field="libelle" />
+                            </div>
+                        </th>
+                        <th style="min-width:8rem" pSortableColumn="description">
+                            <div class="flex align-items-center">
+                                description
+                                <p-sortIcon field="description" />
+                            </div>
+                        </th>
+                        <th style="min-width:10rem" pSortableColumn="enabled">
+                            <div class="flex align-items-center">
+                                Statut
+                                <p-sortIcon field="enabled" />
+                            </div>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-typeHopital>
+                    <tr>
+                        <td style="width: 4rem">
+                            <p-tableRadioButton name="type" [value]="typeHopital" (click)="onSelect(typeHopital, false)"/>
+                        </td>
+                        <td>
+                            {{ typeHopital.libelle }}
+                        </td>
+                        <td>
+                            {{ typeHopital.description }}
+                        </td>
+                        <td>
+                            <p-tag [value]="typeHopital.enabled ? 'Activer' : 'Desactiver'" [severity]="getSeverity(typeHopital.enabled)" />
+                        </td>
+                        <td class="flex align-items-end justify-content-end">
+                            <p-button
+                                    icon="pi pi-pencil"
+                                    [outlined]="true"
+                                    [text]="true"
+                                    (click)="onSelect(typeHopital, true)"
+                            />
+                            <p-button
+                                    icon="pi pi-trash"
+                                    [outlined]="true"
+                                    [text]="true"
+                                    severity="danger"
+                                    disabled
+                            />
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="col zoomin animation-duration-700">
+        <div class="card">
+
+        </div>
+        <div class="card zoomin animation-duration-900">
+
+        </div>
+    </div>
+</div>

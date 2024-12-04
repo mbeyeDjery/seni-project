@@ -63,17 +63,17 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Ville',
                                 icon: 'pi pi-map-marker',
-                                routerLink: ['user/manager/list']
+                                routerLink: ['parametre/localite/ville']
                             },
                             {
                                 label: 'Région',
                                 icon: 'pi pi-map-marker',
-                                routerLink: ['user/manager/list']
+                                routerLink: ['parametre/localite/region']
                             },
                             {
                                 label: 'Province',
                                 icon: 'pi pi-map-marker',
-                                routerLink: ['user/manager/list']
+                                routerLink: ['parametre/localite/province']
                             },
                         ]
                     },

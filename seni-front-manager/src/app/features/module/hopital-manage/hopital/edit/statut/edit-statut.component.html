@@ -1,0 +1,59 @@
+<p-messages [(value)]="messages" [enableService]="false" [closable]="false"/>
+<form class="form" (ngSubmit)="save()" [formGroup]="editForm">
+    <div class="formgrid grid" style="width:40vw;">
+        <div class="col-5">
+            <p-panel header="Structure concernée" styleClass="mb-3">
+                <div class="surface-section">
+                    <ul class="list-none p-0 m-0">
+                        <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+                            <div class="text-500 w-6 md:w-5 font-medium">Statut</div>
+                            <div class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1">
+                                <p-chip label="{{ statut }}" [styleClass]="getStatut(statut)" class="mr-2"></p-chip>
+                            </div>
+                        </li>
+                        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                            <div class="text-500 w-6 md:w-5 font-medium">Sigle</div>
+                            <div class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1">{{ editForm.getRawValue().hopital.sigle }}</div>
+                        </li>
+                        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                            <div class="text-500 w-6 md:w-5 font-medium">Nom</div>
+                            <div class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1">{{ editForm.getRawValue().hopital.nom }}</div>
+                        </li>
+                        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                            <div class="text-500 w-6 md:w-5 font-medium">Téléphone</div>
+                            <div class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1">{{ editForm.getRawValue().hopital.telephone }}</div>
+                        </li>
+                        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                            <div class="text-500 w-6 md:w-5 font-medium">Ville</div>
+                            <div class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1">{{ editForm.getRawValue().hopital.ville.nom }}</div>
+                        </li>
+                        <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                            <div class="text-500 w-6 md:w-5 font-medium">Catégorie</div>
+                            <div class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1">{{ editForm.getRawValue().hopital.typeHopital.libelle }}</div>
+                        </li>
+                    </ul>
+                </div>
+            </p-panel>
+        </div>
+        <div class="col-7">
+            <div class="card">
+                <div class="grid mb-5">
+                    <div class="col">
+                        <label for="statut" class="block text-900 text-xl font-medium mb-2">Statut de l'hopital</label>
+                        <p-dropdown id="statut" formControlName="statut" [options]="hopitalStatus" emptyMessage="Statut de l'hopital" placeholder="Selectionner un statut" styleClass="w-full md:w-34rem"/>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col">
+                        <label for="motif" class="block text-900 text-xl font-medium mb-2">Motif de changement</label>
+                        <textarea id="motif" rows="7" pInputTextarea placeholder="Motif de changement" formControlName="motif" class="w-full md:w-34rem mb-2" style="padding:1rem"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-content-end flex-wrap mt-3">
+        <p-button (onClick)="cancel()" label="Fermer" size="small" icon="pi pi-ban" [outlined]="true" severity="warning" class="mr-2"/>
+        <p-button type="submit" label="Sauvegarder" size="small" icon="pi pi-save" class="mr-2" [disabled]="editForm.invalid"/>
+    </div>
+</form>

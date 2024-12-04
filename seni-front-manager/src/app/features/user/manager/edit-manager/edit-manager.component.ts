@@ -58,7 +58,7 @@ export class EditManagerComponent implements OnInit{
 
     save(): void {
         this.ngxSpinnerService.show().then();
-        const appUser = this.profileFormService.getAppUser(this.editForm);
+        const appUser = this.profileFormService.get(this.editForm);
         if (this.editForm.getRawValue().nouvreau){
             this.appUserService.updateUser(appUser).subscribe({
                 next: () => this.dialog.close(true),

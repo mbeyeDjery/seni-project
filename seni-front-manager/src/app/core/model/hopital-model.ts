@@ -1,8 +1,10 @@
 import {ITypeHopital} from "./type-hopital-model";
 import {IHopitalStatus} from "./enum/hopital-status";
+import {IVille} from "./ville";
 
 export interface IHopital {
     idHopital: string;
+    ville: IVille;
     typeHopital: ITypeHopital;
     codeHopital: string;
     nom: string;

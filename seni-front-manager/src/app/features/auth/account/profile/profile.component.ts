@@ -35,7 +35,7 @@ export class ProfileComponent {
 
     sauvegarder(){
         this.ngxSpinnerService.show().then();
-        this.accountService.updateUser(this.profileFormService.getAppUser(this.profileForm)).subscribe(
+        this.accountService.updateUser(this.profileFormService.get(this.profileForm)).subscribe(
             {
                 next: () => {
                     this.ngxSpinnerService.hide().then();

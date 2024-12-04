@@ -1,0 +1,136 @@
+<p-toast />
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true"><p style="color: white" > Veuillez patienter</p></ngx-spinner>
+<div class="grid">
+    <div class="col-12 md:col-6 lg:col-3">
+        <div class="mb-4 zoominup animation-duration-300">
+            <p-panel>
+                <ng-template pTemplate="header">
+                    <div class="flex align-items-center gap-2">
+                        <p-avatar [image]="hopital.logo ?? 'assets/layout/images/logo-dark.svg'" size="large" shape="circle" />
+                        <span class="font-bold text-xl">{{ hopital.codeHopital }}</span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="icons">
+                    <p-menu #menu [model]="items" [popup]="true" />
+                    <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v" severity="secondary" [text]="true"/>
+                </ng-template>
+                <ng-template pTemplate="content">
+                    <div class="surface-section">
+                        <ul class="list-none p-0 m-0">
+                            <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+                                <div class="text-500 w-6 md:w-3 font-medium">Notation</div>
+                                <div class="text-900 w-full md:w-7 md:flex-order-0 flex-order-1">
+                                    <p-rating [(ngModel)]="value" [cancel]="false" [readonly]="true"/>
+                                </div>
+                                <div class="w-6 md:w-2 flex justify-content-end">
+
+                                </div>
+                            </li>
+                            <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+                                <div class="text-500 w-6 md:w-3 font-medium">Statut</div>
+                                <div class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1">
+                                    <p-chip label="{{ hopital.statut }}" [styleClass]="getStatut(hopital.statut)" class="mr-2"></p-chip>
+                                    <p-chip label="{{ hopital.online ? 'EN LIGNE' : 'HORS LIGNE' }}" [styleClass]="hopital.online ? 'green-200' : 'bg-red-200'" class="mr-2"></p-chip>
+                                </div>
+                            </li>
+                            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                                <div class="text-500 w-6 md:w-3 font-medium">Sigle</div>
+                                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{ hopital.sigle }}</div>
+                            </li>
+                            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                                <div class="text-500 w-6 md:w-3 font-medium">Nom</div>
+                                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{ hopital.nom }}</div>
+                            </li>
+                            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                                <div class="text-500 w-6 md:w-3 font-medium">Téléphone</div>
+                                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{ hopital.telephone }}</div>
+                            </li>
+                            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap" *ngIf="hopital.email">
+                                <div class="text-500 w-6 md:w-3 font-medium">E-mail</div>
+                                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{ hopital.email }}</div>
+                            </li>
+                            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                                <div class="text-500 w-6 md:w-3 font-medium">Ville</div>
+                                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{ hopital.ville.nom }}</div>
+                            </li>
+                            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                                <div class="text-500 w-6 md:w-3 font-medium">Adresse</div>
+                                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{ hopital.addresse }}</div>
+                            </li>
+                            <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+                                <div class="text-500 w-6 md:w-3 font-medium">Catégorie</div>
+                                <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">{{ hopital.typeHopital.libelle }}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <div class="flex flex-wrap align-items-center justify-content-between gap-3">
+                        <div class="flex align-items-center gap-2">
+                            <div class="mr-5 flex align-items-center mt-3" *ngIf="hopital.siteWeb">
+                                <i class="pi pi-globe mr-2"></i>
+                                <span>{{ hopital.siteWeb }}</span>
+                            </div>
+                        </div>
+                        <span class="p-text-secondary">
+                            Modifier il y'a 2 heures
+                        </span>
+                    </div>
+                </ng-template>
+            </p-panel>
+            <div class="card mt-3">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-12 md:col-6 lg:col-9">
+        <div class="mb-4 zoominup animation-duration-300">
+            <p-tabView styleClass="tabview-custom">
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center gap-2">
+                            <i class="pi pi-file-edit"></i>
+                            <span class="font-bold white-space-nowrap m-0">
+                                Contrat
+                            </span>
+                        </div>
+                    </ng-template>
+                    <app-contrat-hopital [hopital]="hopital"></app-contrat-hopital>
+                </p-tabPanel>
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center gap-2">
+                            <i class="pi pi-home"></i>
+                            <span class="font-bold white-space-nowrap m-0">
+                                Dashboard
+                            </span>
+                        </div>
+                    </ng-template>
+                </p-tabPanel>
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center gap-2">
+                            <i class="pi pi-user"></i>
+                            <span class="font-bold white-space-nowrap m-0">
+                        Utilisateur
+                    </span>
+                        </div>
+                    </ng-template>
+
+                </p-tabPanel>
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center gap-2">
+                            <i class="pi pi-cog"></i>
+                            <span class="font-bold white-space-nowrap m-0">
+                        Parametre
+                    </span>
+                        </div>
+                    </ng-template>
+
+                </p-tabPanel>
+
+            </p-tabView>
+        </div>
+    </div>
+</div>
