@@ -23,29 +23,31 @@ import {RatingModule} from "primeng/rating";
 import {FormsModule} from "@angular/forms";
 import {EditStatutComponent} from "../edit/statut/edit-statut.component";
 import {HopitalService} from "../../../../../core/services/hopital.service";
+import {ListUserHopitalComponent} from "../../../../user/hopital/list/list-user-hopital.component";
 
 @Component({
   selector: 'app-manage-hopital',
   standalone: true,
-  imports: [
-    NgxSpinnerComponent,
-    ToastModule,
-    Button,
-    CardModule,
-    ImageModule,
-    TagModule,
-    PanelModule,
-    AvatarModule,
-    MenuModule,
-    TabViewModule,
-    ContratHopitalComponent,
-    ChipModule,
-    ButtonDirective,
-    Ripple,
-    NgIf,
-    RatingModule,
-    FormsModule
-  ],
+    imports: [
+        NgxSpinnerComponent,
+        ToastModule,
+        Button,
+        CardModule,
+        ImageModule,
+        TagModule,
+        PanelModule,
+        AvatarModule,
+        MenuModule,
+        TabViewModule,
+        ContratHopitalComponent,
+        ChipModule,
+        ButtonDirective,
+        Ripple,
+        NgIf,
+        RatingModule,
+        FormsModule,
+        ListUserHopitalComponent,
+    ],
   templateUrl: './manage-hopital.component.html',
   styles: ``,
   providers: [MessageService, DialogService]

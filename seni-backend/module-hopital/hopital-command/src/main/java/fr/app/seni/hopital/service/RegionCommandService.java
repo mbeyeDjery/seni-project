@@ -22,6 +22,9 @@ public class RegionCommandService {
     private final CommandGateway commandGateway;
 
     public AggregateCreatedResponse create(RegionDto region){
+        if (region.getNom().trim().isBlank()){
+            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new CreateRegionCommand(
                     UUID.randomUUID().toString(),
@@ -37,6 +40,9 @@ public class RegionCommandService {
     }
 
     public void update(RegionDto region){
+        if (region.getNom().trim().isBlank()){
+            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new UpdateRegionCommand(
                     region.getIdRegion(),

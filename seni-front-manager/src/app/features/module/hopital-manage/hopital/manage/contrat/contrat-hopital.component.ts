@@ -123,10 +123,13 @@ export class ContratHopitalComponent implements  OnInit{
     this.ngxSpinnerService.show().then();
     this.contratHopitalService.updateStatut(statutRequest).subscribe({
       next: value => {
-        window.location.reload();
+        this.load();
         this.messageService.add({severity:'success', summary: 'Succès', detail:'Statut modifié avec succès'});
       },
-      error: err => this.messageService.add({severity:'error', summary: 'Erreur', detail:'Echec de modification du statut'}),
+      error: err => {
+        console.warn(err);
+        this.messageService.add({severity: 'error', summary: 'Erreur', detail: err['error']['message']});
+      },
     });
     this.ngxSpinnerService.hide().then();
   }

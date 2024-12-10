@@ -1,0 +1,52 @@
+<p-messages [(value)]="messages" [enableService]="false" [closable]="false"/>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true"><p style="color: white" > Veuillez patienter</p></ngx-spinner>
+<form class="form" (ngSubmit)="save()" [formGroup]="editForm">
+    <div style="width:500px;">
+        <div class="grid">
+            <div class="field col-12">
+                <label for="userName" class="text-900 font-medium">Username</label>
+                <input id="userName" type="text" [readOnly]="editForm.getRawValue().idUser" placeholder="Nom de connexion" pAutoFocus [autofocus]="true" formControlName="username" pInputText class="w-full md:w-34rem"/>
+                <small id="userName-help">
+                    Nom de connexion
+                </small>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="field col-6">
+                <label for="firstName" class="text-900 font-medium">Nom</label>
+                <input id="firstName" type="text" placeholder="Nom" formControlName="firstName" pInputText class="w-full md:w-34rem" style="padding:1rem"/>
+            </div>
+
+            <div class="field col-6">
+                <label for="lastName" class="text-900 font-medium">Prénom</label>
+                <input id="lastName" type="text" placeholder="Prénom" formControlName="lastName" pInputText class="w-full md:w-34rem" style="padding:1rem"/>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="field col-6">
+                <label for="telephone" class="text-900 font-medium">Téléphone</label>
+                <input id="telephone" type="text" placeholder="Téléphone" formControlName="telephone" pInputText class="w-full md:w-34rem" style="padding:1rem"/>
+            </div>
+            <div class="field col-6">
+                <label for="email" class="text-900 font-medium">E-mail</label>
+                <input id="email" type="text" placeholder="Adresse e-mail" formControlName="email" pInputText class="w-full md:w-34rem" style="padding:1rem"/>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="field col-6">
+                <label for="enable" class="text-900 font-medium">Etat du compte</label>
+                <p-selectButton id="enable" [options]="enableds" formControlName="enabled" optionLabel="label" optionValue="value" />
+            </div>
+            <div class="field col-6">
+                <label for="roles" class="text-900 font-medium">Role</label>
+                <p-listbox id="roles" [options]="appRoles" formControlName="roles" [multiple]="true" optionLabel="roleName" class="w-full md:w-56" />
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="flex align-items-center justify-content-center">
+        <p-button (onClick)="cancel()" label="Annuler" size="small" icon="pi pi-ban" [outlined]="true" severity="warning" class="mr-2"/>
+        <p-button type="submit" label="Sauvegarder" size="small" icon="pi pi-save" class="mr-2" [disabled]="editForm.invalid"/>
+    </div>
+</form>

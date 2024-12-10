@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {LocalStorageService} from "../storage/local-storage.service";
 import {SessionStorageService} from "../storage/session-storage.service";
 import {SENI_ADMIN_AUTH_TOKEN, STORE_URL} from "../../utils/constants";
-import {IAuthResponse, convertToAuthResponse} from "../../model/auth-response-model";
+import {IAuthResponse, convertToAuthResponse} from "../../model/request/auth-response-model";
 
 @Injectable({
   providedIn: 'root'

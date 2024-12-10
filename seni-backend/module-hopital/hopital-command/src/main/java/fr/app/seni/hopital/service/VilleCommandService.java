@@ -26,6 +26,13 @@ public class VilleCommandService {
     private final CommandGateway commandGateway;
 
     public AggregateCreatedResponse create(VilleDto ville){
+        if (ville.getProvince() == null){
+            throw new CustomException("Aucune province spécifiée", HttpStatus.BAD_REQUEST);
+        }
+
+        if (ville.getNom().trim().isBlank()){
+            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new CreateVilleCommand(
                     UUID.randomUUID().toString(),
@@ -41,6 +48,13 @@ public class VilleCommandService {
     }
 
     public void update(VilleDto ville){
+        if (ville.getProvince() == null){
+            throw new CustomException("Aucune province spécifiée", HttpStatus.BAD_REQUEST);
+        }
+
+        if (ville.getNom().trim().isBlank()){
+            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new UpdateVilleCommand(
                     ville.getIdVille(),

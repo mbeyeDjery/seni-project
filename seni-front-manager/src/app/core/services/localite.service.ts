@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {ApplicationConfigService} from "../config/application-config.service";
 import {PARAMETRE_COMMAND, PARAMETRE_QUERY} from "../utils/constants";
 import {Observable} from "rxjs";
-import {IAggregateCreateResponseModel} from "../model/aggregate-create-response-model";
+import {IAggregateCreateResponseModel} from "../model/request/aggregate-create-response-model";
 import {IRegion} from "../model/region";
 import {IProvince} from "../model/province";
 import {IVille} from "../model/ville";

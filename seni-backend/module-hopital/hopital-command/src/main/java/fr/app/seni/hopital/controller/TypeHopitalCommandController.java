@@ -2,7 +2,6 @@ package fr.app.seni.hopital.controller;
 
 import fr.app.seni.core.cqrs.AggregateCreatedResponse;
 import fr.app.seni.core.dto.TypeHopitalDto;
-import fr.app.seni.core.exception.CustomException;
 import fr.app.seni.hopital.service.TypeHopitalCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,21 +20,12 @@ public class TypeHopitalCommandController {
     @PostMapping
     public ResponseEntity<AggregateCreatedResponse> create(@RequestBody TypeHopitalDto typeHopitalDto){
         log.info("REQUEST to create type hopital : {}", typeHopitalDto);
-        if (typeHopitalDto.getLibelle().trim().isBlank()){
-            throw new CustomException("Le libéllé du type est obligatoire !", HttpStatus.BAD_REQUEST);
-        }
-
         return ResponseEntity.status(HttpStatus.CREATED).body(typeHopitalCommandService.create(typeHopitalDto));
     }
 
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody TypeHopitalDto typeHopitalDto){
         log.info("REQUEST to update type hopital : {}", typeHopitalDto);
-
-        if (typeHopitalDto.getLibelle().trim().isBlank()){
-            throw new CustomException("Le libéllé du type est obligatoire !", HttpStatus.BAD_REQUEST);
-        }
-
         typeHopitalCommandService.update(typeHopitalDto);
         return ResponseEntity.noContent().build();
     }
@@ -43,7 +33,6 @@ public class TypeHopitalCommandController {
     @DeleteMapping("/{idTypeHopital}")
     public ResponseEntity<Void> delete(@PathVariable String idTypeHopital){
         log.info("REQUEST to delete type hopital : {}", idTypeHopital);
-
         typeHopitalCommandService.delete(idTypeHopital);
         return ResponseEntity.noContent().build();
     }

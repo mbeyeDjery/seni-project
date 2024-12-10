@@ -22,6 +22,13 @@ public class SecteurCommandService {
     private final CommandGateway commandGateway;
 
     public AggregateCreatedResponse create(SecteurDto secteur){
+        if (secteur.getVille() == null){
+            throw new CustomException("Aucune ville spécifiée", HttpStatus.BAD_REQUEST);
+        }
+
+        if (secteur.getLibelle().trim().isBlank()){
+            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new CreateSecteurCommand(
                     UUID.randomUUID().toString(),
@@ -37,6 +44,13 @@ public class SecteurCommandService {
     }
 
     public void update(SecteurDto secteur){
+        if (secteur.getVille() == null){
+            throw new CustomException("Aucune ville spécifiée", HttpStatus.BAD_REQUEST);
+        }
+
+        if (secteur.getLibelle().trim().isBlank()){
+            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new UpdateSecteurCommand(
                     secteur.getIdSecteur(),

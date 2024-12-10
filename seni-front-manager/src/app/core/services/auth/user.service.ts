@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 import {ApplicationConfigService} from "../../config/application-config.service";
 import {IAppUser} from "../../model/app-user-model";
 import {IAppRole} from "../../model/app-role-model";
-import {AUTH_MANAGER_SERVER} from "../../utils/constants";
+import {AUTH_GESTIONNAIRE_SERVER} from "../../utils/constants";
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +66,7 @@ export class UserService {
   }
 
   private fetch(): Observable<IAppUser> {
-    return this.http.get<IAppUser>(this.applicationConfigService.getEndpointFor('/account', AUTH_MANAGER_SERVER));
+    return this.http.get<IAppUser>(this.applicationConfigService.getEndpointFor('/account', AUTH_GESTIONNAIRE_SERVER));
   }
 
   private navigateToStoredUrl(): void {

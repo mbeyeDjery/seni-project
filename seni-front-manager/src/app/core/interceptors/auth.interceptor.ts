@@ -3,7 +3,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs';
 import {AuthStorageService} from "../services/auth/auth-storage.service";
 import {ApplicationConfigService} from "../config/application-config.service";
-import {AUTH_MANAGER_SERVER} from "../utils/constants";
+import {AUTH_GESTIONNAIRE_SERVER} from "../utils/constants";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -11,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
     private readonly applicationConfigService = inject(ApplicationConfigService);
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const serverApiUrl = this.applicationConfigService.getEndpointFor('/auth', AUTH_MANAGER_SERVER);
+        const serverApiUrl = this.applicationConfigService.getEndpointFor('/auth', AUTH_GESTIONNAIRE_SERVER);
 
         if (request.url.startsWith(serverApiUrl)){
             return next.handle(request);

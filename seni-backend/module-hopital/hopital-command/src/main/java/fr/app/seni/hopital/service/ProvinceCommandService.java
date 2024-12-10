@@ -22,6 +22,13 @@ public class ProvinceCommandService {
     private final CommandGateway commandGateway;
 
     public AggregateCreatedResponse create(ProvinceDto province){
+        if (province.getRegion() == null){
+            throw new CustomException("Aucune région spécifiée", HttpStatus.BAD_REQUEST);
+        }
+
+        if (province.getNom().trim().isBlank()){
+            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new CreateProvinceCommand(
                     UUID.randomUUID().toString(),
@@ -37,6 +44,13 @@ public class ProvinceCommandService {
     }
 
     public void update(ProvinceDto province){
+        if (province.getRegion() == null){
+            throw new CustomException("Aucune région spécifiée", HttpStatus.BAD_REQUEST);
+        }
+
+        if (province.getNom().trim().isBlank()){
+            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new UpdateProvinceCommand(
                     province.getIdProvince(),

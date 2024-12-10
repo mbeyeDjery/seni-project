@@ -11,7 +11,7 @@ import {UserService} from "../../../core/services/auth/user.service";
 import {MessagesModule} from "primeng/messages";
 import {Message} from "primeng/api";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
-import {IAuthRequest} from "../../../core/model/auth-request-model";
+import {IAuthRequest} from "../../../core/model/request/auth-request-model";
 
 @Component({
     selector: 'app-login',

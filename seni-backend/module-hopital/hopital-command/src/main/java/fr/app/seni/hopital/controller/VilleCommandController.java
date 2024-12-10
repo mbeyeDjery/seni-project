@@ -1,10 +1,7 @@
 package fr.app.seni.hopital.controller;
 
 import fr.app.seni.core.cqrs.AggregateCreatedResponse;
-import fr.app.seni.core.dto.RegionDto;
 import fr.app.seni.core.dto.VilleDto;
-import fr.app.seni.core.exception.CustomException;
-import fr.app.seni.hopital.service.RegionCommandService;
 import fr.app.seni.hopital.service.VilleCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,30 +20,12 @@ public class VilleCommandController {
     @PostMapping
     public ResponseEntity<AggregateCreatedResponse> create(@RequestBody VilleDto ville){
         log.info("REQUEST to create ville : {}", ville);
-
-        if (ville.getProvince() == null){
-            throw new CustomException("Aucune province spécifiée", HttpStatus.BAD_REQUEST);
-        }
-
-        if (ville.getNom().trim().isBlank()){
-            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
-        }
-
         return ResponseEntity.status(HttpStatus.CREATED).body(villeCommandService.create(ville));
     }
 
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody VilleDto ville){
         log.info("REQUEST to update ville : {}", ville);
-
-        if (ville.getProvince() == null){
-            throw new CustomException("Aucune province spécifiée", HttpStatus.BAD_REQUEST);
-        }
-
-        if (ville.getNom().trim().isBlank()){
-            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
-        }
-
         villeCommandService.update(ville);
         return ResponseEntity.noContent().build();
     }

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import {UserService} from "./user.service";
 import {AuthProviderService} from "./auth-provider.service";
-import {IAuthRequest} from "../../model/auth-request-model";
+import {IAuthRequest} from "../../model/request/auth-request-model";
 import {IAppUser} from "../../model/app-user-model";
 
 @Injectable({ providedIn: 'root' })

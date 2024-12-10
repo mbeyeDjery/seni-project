@@ -2,10 +2,7 @@ package fr.app.seni.hopital.controller;
 
 import fr.app.seni.core.cqrs.AggregateCreatedResponse;
 import fr.app.seni.core.dto.SecteurDto;
-import fr.app.seni.core.dto.VilleDto;
-import fr.app.seni.core.exception.CustomException;
 import fr.app.seni.hopital.service.SecteurCommandService;
-import fr.app.seni.hopital.service.VilleCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,30 +20,12 @@ public class SecteurCommandController {
     @PostMapping
     public ResponseEntity<AggregateCreatedResponse> create(@RequestBody SecteurDto secteur){
         log.info("REQUEST to create secteur : {}", secteur);
-
-        if (secteur.getVille() == null){
-            throw new CustomException("Aucune ville spécifiée", HttpStatus.BAD_REQUEST);
-        }
-
-        if (secteur.getLibelle().trim().isBlank()){
-            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
-        }
-
         return ResponseEntity.status(HttpStatus.CREATED).body(secteurCommandService.create(secteur));
     }
 
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody SecteurDto secteur){
         log.info("REQUEST to update secteur : {}", secteur);
-
-        if (secteur.getVille() == null){
-            throw new CustomException("Aucune ville spécifiée", HttpStatus.BAD_REQUEST);
-        }
-
-        if (secteur.getLibelle().trim().isBlank()){
-            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
-        }
-
         secteurCommandService.update(secteur);
         return ResponseEntity.noContent().build();
     }

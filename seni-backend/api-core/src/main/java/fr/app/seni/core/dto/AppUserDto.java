@@ -16,6 +16,7 @@ public class AppUserDto implements Serializable {
 
     private String idUser;
     private String username;
+    private String idHopital;
     private AppUserGroup groupe;
     private String password;
     private String firstName;

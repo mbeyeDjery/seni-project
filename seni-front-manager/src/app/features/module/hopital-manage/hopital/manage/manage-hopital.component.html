@@ -89,13 +89,29 @@
                 <p-tabPanel>
                     <ng-template pTemplate="header">
                         <div class="flex align-items-center gap-2">
+                            <i class="pi pi-user"></i>
+                            <span class="font-bold white-space-nowrap m-0">
+                                Utilisateur
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="content">
+                        <app-list-user-hopital [hopital]="hopital"></app-list-user-hopital>
+                    </ng-template>
+                </p-tabPanel>
+                <p-tabPanel>
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center gap-2">
                             <i class="pi pi-file-edit"></i>
                             <span class="font-bold white-space-nowrap m-0">
                                 Contrat
                             </span>
                         </div>
                     </ng-template>
-                    <app-contrat-hopital [hopital]="hopital"></app-contrat-hopital>
+                    <ng-template pTemplate="content">
+                        <app-contrat-hopital [hopital]="hopital"></app-contrat-hopital>
+                    </ng-template>
+
                 </p-tabPanel>
                 <p-tabPanel>
                     <ng-template pTemplate="header">
@@ -106,17 +122,6 @@
                             </span>
                         </div>
                     </ng-template>
-                </p-tabPanel>
-                <p-tabPanel>
-                    <ng-template pTemplate="header">
-                        <div class="flex align-items-center gap-2">
-                            <i class="pi pi-user"></i>
-                            <span class="font-bold white-space-nowrap m-0">
-                        Utilisateur
-                    </span>
-                        </div>
-                    </ng-template>
-
                 </p-tabPanel>
                 <p-tabPanel>
                     <ng-template pTemplate="header">

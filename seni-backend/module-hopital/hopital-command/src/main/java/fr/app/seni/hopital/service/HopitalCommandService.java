@@ -26,6 +26,13 @@ public class HopitalCommandService {
     private final CommandGateway commandGateway;
 
     public AggregateCreatedResponse create(HopitalDto hopitalDto){
+        if (hopitalDto.getNom().trim().isBlank()){
+            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
+        }
+
+        if (hopitalDto.getTelephone().trim().isBlank()){
+            throw new CustomException("Le téléphone est obligatoire", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new CreateHopitalCommand(
                     UUID.randomUUID().toString(),
@@ -41,6 +48,13 @@ public class HopitalCommandService {
     }
 
     public void update(HopitalDto hopitalDto){
+        if (hopitalDto.getNom().trim().isBlank()){
+            throw new CustomException("Le nom est obligatoire", HttpStatus.BAD_REQUEST);
+        }
+
+        if (hopitalDto.getTelephone().trim().isBlank()){
+            throw new CustomException("Le téléphone est obligatoire", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new UpdateHopitalCommand(
                     hopitalDto.getIdHopital(),
@@ -60,6 +74,17 @@ public class HopitalCommandService {
     }
 
     public void changeStatus(HopitalStatutRequest hopitalStatutRequest) {
+        if (hopitalStatutRequest.idHopital().isBlank()){
+            throw new CustomException("Hopital non specifié", HttpStatus.BAD_REQUEST);
+        }
+
+        if (hopitalStatutRequest.statut() == null){
+            throw new CustomException("Le statut n'est pas defini", HttpStatus.BAD_REQUEST);
+        }
+
+        if (hopitalStatutRequest.motif().isBlank()){
+            throw new CustomException("Le motif doit être spécifié", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new ChangeHopitalStatusCommand(
                     hopitalStatutRequest.idHopital(),

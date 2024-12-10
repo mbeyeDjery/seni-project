@@ -22,6 +22,13 @@ public class NotationHopitalCommandService {
     private final CommandGateway commandGateway;
 
     public AggregateCreatedResponse create(NotationHopitalDto notationHopital){
+        if (notationHopital.getHopital() == null){
+            throw new CustomException("Aucun hopital spécifier", HttpStatus.BAD_REQUEST);
+        }
+
+        if (notationHopital.getNote() == null || notationHopital.getNote().isNaN()){
+            throw new CustomException("Aucune note spécifiée", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new CreateNotationHopitalCommand(
                     UUID.randomUUID().toString(),
@@ -37,6 +44,13 @@ public class NotationHopitalCommandService {
     }
 
     public void update(NotationHopitalDto notationHopital){
+        if (notationHopital.getHopital() == null){
+            throw new CustomException("Aucun hopital spécifier", HttpStatus.BAD_REQUEST);
+        }
+
+        if (notationHopital.getNote() == null || notationHopital.getNote().isNaN()){
+            throw new CustomException("Aucune note spécifiée", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new UpdateNotationHopitalCommand(
                     notationHopital.getIdNotation(),

@@ -4,7 +4,7 @@ const userRoutes: Routes = [
     {
         path: 'manager',
         data: { pageTitle: 'User manager' },
-        loadChildren: () => import('./manager/user.manager.route'),
+        loadChildren: () => import('./gestionnaire/user.manager.route'),
     },
 ];
 

@@ -24,6 +24,9 @@ public class TypeHopitalCommandService {
     private final CommandGateway commandGateway;
 
     public AggregateCreatedResponse create(TypeHopitalDto typeHopitalDto){
+        if (typeHopitalDto.getLibelle().trim().isBlank()){
+            throw new CustomException("Le libéllé du type est obligatoire !", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new CreateTypeHopitalCommand(
                     UUID.randomUUID().toString(),
@@ -39,6 +42,9 @@ public class TypeHopitalCommandService {
     }
 
     public void update(TypeHopitalDto typeHopitalDto){
+        if (typeHopitalDto.getLibelle().trim().isBlank()){
+            throw new CustomException("Le libéllé du type est obligatoire !", HttpStatus.BAD_REQUEST);
+        }
         try {
             String response = commandGateway.sendAndWait(new UpdateTypeHopitalCommand(
                     typeHopitalDto.getIdTypeHopital(),

@@ -3,6 +3,11 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+      </profile>
       <profile name="Annotation profile for seni-backend" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -17,15 +22,18 @@
         <module name="api-core" />
         <module name="discovery-server" />
         <module name="hopital-command" />
+        <module name="auth-hopital" />
         <module name="hopital-query" />
-        <module name="parametre-command" />
         <module name="gateway-server" />
+        <module name="parametre-command" />
         <module name="parametre-query" />
-        <module name="auth-manager" />
+        <module name="auth-gestionnaire" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="auth-manager" target="21" />
       <module name="auth-server" target="21" />
+      <module name="module-auth" target="21" />
       <module name="module-etablissement" target="21" />
       <module name="msx-auth-manager" target="21" />
       <module name="msx-etablissement-command" target="21" />
@@ -38,6 +46,8 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-core" options="-parameters" />
+      <module name="auth-gestionnaire" options="-parameters" />
+      <module name="auth-hopital" options="-parameters" />
       <module name="auth-manager" options="-parameters" />
       <module name="auth-server" options="-parameters" />
       <module name="config-server" options="-parameters" />
@@ -49,6 +59,7 @@
       <module name="module-etablissement" options="-parameters" />
       <module name="module-hopital" options="-parameters" />
       <module name="module-parametre" options="-parameters" />
+      <module name="module-security" options="-parameters" />
       <module name="msx-auth-manager" options="-parameters" />
       <module name="msx-etablissement-command" options="-parameters" />
       <module name="msx-etablissement-commande" options="-parameters" />

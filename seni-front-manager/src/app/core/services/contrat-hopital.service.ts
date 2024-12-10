@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {ApplicationConfigService} from "../config/application-config.service";
 import {HOPITAL_COMMAND, HOPITAL_QUERY} from "../utils/constants";
 import {Observable} from "rxjs";
-import {IAggregateCreateResponseModel} from "../model/aggregate-create-response-model";
+import {IAggregateCreateResponseModel} from "../model/request/aggregate-create-response-model";
 import {IContratHopital} from "../model/contrat-hopital";
 import {IHopitalStatutRequest} from "../model/request/hopital-statut-request";
 import {IContratStatutRequest} from "../model/request/contrat-statut-request";

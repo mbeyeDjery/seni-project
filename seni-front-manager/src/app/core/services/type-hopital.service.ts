@@ -4,7 +4,7 @@ import {ApplicationConfigService} from "../config/application-config.service";
 import {HOPITAL_COMMAND, HOPITAL_QUERY} from "../utils/constants";
 import {Observable} from "rxjs";
 import {ITypeHopital} from "../model/type-hopital-model";
-import {IAggregateCreateResponseModel} from "../model/aggregate-create-response-model";
+import {IAggregateCreateResponseModel} from "../model/request/aggregate-create-response-model";
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: auth-manager
-  cloud:
-    config:
-      uri: http://localhost:8888

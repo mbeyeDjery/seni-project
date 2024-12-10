@@ -35,3 +35,7 @@ eureka:
       defaultZone: ${DISCOVERY_SERVER_HOST:http://localhost:8761/eureka/}
 server:
   port: 8080
+  compression:
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 2048
+    enabled: true
