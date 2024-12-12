@@ -24,6 +24,7 @@ import {FormsModule} from "@angular/forms";
 import {EditStatutComponent} from "../edit/statut/edit-statut.component";
 import {HopitalService} from "../../../../../core/services/hopital.service";
 import {ListUserHopitalComponent} from "../../../../user/hopital/list/list-user-hopital.component";
+import {ListUserHopitalIntegreComponent} from "../../../../user/hopital/list/list-user-hopital-integre.component";
 
 @Component({
   selector: 'app-manage-hopital',
@@ -46,7 +47,7 @@ import {ListUserHopitalComponent} from "../../../../user/hopital/list/list-user-
         NgIf,
         RatingModule,
         FormsModule,
-        ListUserHopitalComponent,
+        ListUserHopitalIntegreComponent,
     ],
   templateUrl: './manage-hopital.component.html',
   styles: ``,

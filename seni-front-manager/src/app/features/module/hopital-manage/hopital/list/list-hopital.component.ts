@@ -39,7 +39,7 @@ import {RouterLink} from "@angular/router";
   styles: ``,
   providers: [MessageService, DialogService]
 })
-export class ListHopitalComponent  implements OnInit {
+export class ListHopitalComponent implements OnInit {
 
   hopitaux?: IHopital[];
   hopitauxSelect?: IHopital[];

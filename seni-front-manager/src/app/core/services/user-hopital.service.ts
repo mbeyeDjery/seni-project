@@ -24,4 +24,8 @@ export class UserHopitalService {
     deleteUser(idUser: number): Observable<void> {
         return this.http.delete<void>(`${this.serverApiUrl}/${idUser}`);
     }
+
+    getAllUsers(idHopital: string): Observable<IAppUser[]>{
+        return this.http.get<IAppUser[]>(`${this.serverApiUrl}/${idHopital}`);
+    }
 }

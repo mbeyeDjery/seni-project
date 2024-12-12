@@ -2,11 +2,16 @@ package fr.app.seni.auth.hopital.service;
 
 
 import fr.app.seni.auth.hopital.config.KeycloakCredentials;
+import fr.app.seni.core.domain.UserHopitalId;
 import fr.app.seni.core.dto.AppRoleDto;
 import fr.app.seni.core.dto.AppUserDto;
+import fr.app.seni.core.dto.HopitalDto;
+import fr.app.seni.core.dto.UserHopitalDto;
 import fr.app.seni.core.enums.AppUserGroup;
 import fr.app.seni.core.exception.CustomException;
-import fr.app.seni.core.service.AccountService;
+import fr.app.seni.core.service.AppUserService;
+import fr.app.seni.core.service.HopitalService;
+import fr.app.seni.core.service.UserHopitalService;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
@@ -32,47 +37,89 @@ public class UserService {
     @Value("${seni-app.keycloak.realm}")
     private String realm;
     private final Keycloak keycloak;
-
-    private final AccountService accountService;
+    private final AppUserService appUserService;
+    private final HopitalService hopitalService;
+    private final UserHopitalService userHopitalService;
 
     public AppUserDto createUser(AppUserDto appUser) {
-        if (appUser.getIdUser() != null) {
+        if(appUser.getHopital().isBlank()) {
+            throw new CustomException("Impossible de créé un utilisateur sans un hopital asocié", HttpStatus.BAD_REQUEST);
+        } else if (appUser.getIdUser() != null) {
             throw new CustomException("Le compte existe déja", HttpStatus.BAD_REQUEST);
-        } else if (accountService.findByUsername(appUser.getUsername(), AppUserGroup.HOPITAL) != null) {
+        } else if (appUserService.findByUsername(appUser.getUsername(), AppUserGroup.HOPITAL) != null) {
             throw new CustomException("Ce login ne peut pas être utilisé", HttpStatus.CONFLICT);
-        } else if (accountService.findByEmail(appUser.getEmail(), AppUserGroup.HOPITAL) != null) {
+        } else if (appUserService.findByEmail(appUser.getEmail(), AppUserGroup.HOPITAL) != null) {
             throw new CustomException("Un utilisateur avec cet email existe déja", HttpStatus.CONFLICT);
-        }else if (accountService.findByTelephone(appUser.getTelephone(), AppUserGroup.HOPITAL) != null) {
+        } else if (appUserService.findByTelephone(appUser.getTelephone(), AppUserGroup.HOPITAL) != null) {
             throw new CustomException("Un utilisateur avec ce numéro de téléphone existe déja", HttpStatus.CONFLICT);
-        }
-        try {
-            Response response = getUsersResource().create(mapAppUserToKeycloakUser(appUser));
-            if(!Objects.equals(201,response.getStatus())){
-                throw new CustomException("Internal error", HttpStatus.BAD_REQUEST);
+        } else {
+            HopitalDto hopital = hopitalService.findOne(appUser.getHopital());
+            if (hopital == null) {
+                throw new CustomException("Hopital inexistant", HttpStatus.BAD_REQUEST);
             }
-            String userId = CreatedResponseUtil.getCreatedId(response);
-            appUser.getRoles().forEach(role -> addRoleToUser(userId, role.getRoleName()));
-            appUser = getKeycloakUserById(userId);
-            appUser.setGroupe(AppUserGroup.HOPITAL);
-            appUser = accountService.create(appUser);
-            appUser.setRoles(getUserRole(appUser.getIdUser()));
-            return appUser;
-        }catch (Exception e){
-            log.error("Internal error : {} ", e.getMessage());
-            throw new CustomException("Internal error", HttpStatus.INTERNAL_SERVER_ERROR);
+            try {
+                Response response = getUsersResource().create(mapAppUserToKeycloakUser(appUser));
+                if(!Objects.equals(201,response.getStatus())) {
+                    throw new CustomException("Erreur interne", HttpStatus.BAD_REQUEST);
+                }
+                String userId = CreatedResponseUtil.getCreatedId(response);
+                appUser.getRoles().forEach(role -> addRoleToUser(userId, role.getRoleName()));
+                appUser = getKeycloakUserById(userId);
+                appUser.setGroupe(AppUserGroup.HOPITAL);
+                appUser = appUserService.create(appUser);
+                appUser.setRoles(getUserRole(appUser.getIdUser()));
+
+                UserHopitalId userHopitalId = new UserHopitalId();
+                userHopitalId.setIdUser(appUser.getIdUser());
+                userHopitalId.setIdHopital(appUser.getHopital());
+                userHopitalService.update(UserHopitalDto.builder()
+                        .id(userHopitalId)
+                        .user(appUser)
+                        .hopital(hopital)
+                        .build());
+
+                return appUser;
+            }catch (Exception e){
+                e.printStackTrace();
+                throw new CustomException("Internal error", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
     }
 
     public AppUserDto updateUser(AppUserDto appUser) {
+        HopitalDto hopital = hopitalService.findOne(appUser.getHopital());
+        if (hopital == null) {
+            throw new CustomException("Hopital inexistant", HttpStatus.BAD_REQUEST);
+        }
         try {
             String userId = appUser.getIdUser();
-            getUsersResource().get(userId).update(mapAppUserToKeycloakUser(appUser));
+            AppUserDto userKeycloak = getKeycloakUserById(userId);
+            userKeycloak.setLastName(appUser.getLastName());
+            userKeycloak.setFirstName(appUser.getFirstName());
+            userKeycloak.setHopital(hopital.getIdHopital());
+            getUsersResource().get(userId).update(mapAppUserToKeycloakUser(userKeycloak));
             getUsersResource().get(userId).roles().realmLevel().listAll().forEach(role -> removeRoleFromUser(userId, role.getName()));
             appUser.getRoles().forEach(role -> addRoleToUser(userId, role.getRoleName()));
-            appUser.setGroupe(AppUserGroup.HOPITAL);
-            appUser = accountService.update(appUser);
-            appUser.setRoles(getUserRole(appUser.getIdUser()));
-            return appUser;
+
+            userKeycloak.setGroupe(AppUserGroup.HOPITAL);
+            userKeycloak = appUserService.update(userKeycloak);
+            userKeycloak.setRoles(getUserRole(userId));
+
+            UserHopitalDto userHopital = userHopitalService.findOneByUser(userId);
+            if (userHopital != null && !userHopital.getId().getIdHopital().equals(appUser.getHopital())) {
+                userHopitalService.delete(userHopital);
+
+                UserHopitalId userHopitalId = new UserHopitalId();
+                userHopitalId.setIdUser(appUser.getIdUser());
+                userHopitalId.setIdHopital(appUser.getHopital());
+                userHopitalService.update(UserHopitalDto.builder()
+                        .id(userHopitalId)
+                        .user(appUser)
+                        .hopital(hopital)
+                        .build());
+            }
+
+            return userKeycloak;
         }catch (Exception e){
             if (e instanceof NotFoundException){
                 throw new CustomException("L'utilisateur n'existe pas", HttpStatus.NOT_FOUND);
@@ -84,23 +131,16 @@ public class UserService {
 
     public void deleteUser(String userId) {
         try {
-            AppUserDto appUser = accountService.findOne(userId);
+            AppUserDto appUser = appUserService.findOne(userId);
             if (appUser == null){
                 throw new CustomException("Utilisateur introuvable", HttpStatus.NOT_FOUND);
             }
-            getUsersResource().delete(userId);
-            accountService.delete(appUser);
+            Response response = getUsersResource().delete(userId);
+            userHopitalService.delete(userHopitalService.findOneByUser(appUser.getIdUser()));
+            appUserService.delete(appUser);
         }catch (Exception e){
             throw new CustomException("Erreur interne", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    public List<AppUserDto> getAllUsers() {
-        List<AppUserDto> appUsers = accountService.findAll(AppUserGroup.HOPITAL);
-        for (AppUserDto appUserDto : appUsers) {
-            appUserDto.setRoles(getUserRole(appUserDto.getIdUser()));
-        }
-        return appUsers;
     }
 
     public void updatePassword(String userId, String newPassword) {
@@ -110,6 +150,14 @@ public class UserService {
             log.error("Internal error : {} ", e.getMessage());
             throw new CustomException("Internal error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public List<AppUserDto> getAllUsers(String idHopital) {
+        List<AppUserDto> appUsers = userHopitalService.findByHopital(idHopital).stream().map(UserHopitalDto::getUser).toList();
+        for (AppUserDto appUser : appUsers) {
+            appUser.setRoles(getUserRole(appUser.getIdUser()));
+        }
+        return appUsers;
     }
 
     public AppUserDto getKeycloakUserById(String userId) {
@@ -180,7 +228,7 @@ public class UserService {
 //        Definir les attributs  supplementaire
         Map<String, List<String>> attributes = new HashMap<>();
         attributes.put("telephone", appUserDto.getTelephone() != null ? List.of(appUserDto.getTelephone()) : null);
-        attributes.put("hopital", appUserDto.getIdHopital() != null ? List.of(appUserDto.getIdHopital()) : null);
+        attributes.put("hopital", appUserDto.getHopital() != null ? List.of(appUserDto.getHopital()) : null);
         userRepresentation.setAttributes(attributes);
 
 //        Definit le mot de passe si c'est pas null
@@ -204,7 +252,7 @@ public class UserService {
         Map<String, List<String>> attributes = userRepresentation.getAttributes();
         if (attributes != null) {
             appUserDto.setTelephone(attributes.get("telephone") != null ? attributes.get("telephone").getFirst() : null);
-            appUserDto.setIdHopital(attributes.get("hopital") != null ? attributes.get("hopital").getFirst() : null);
+            appUserDto.setHopital(attributes.get("hopital") != null ? attributes.get("hopital").getFirst() : null);
         }
         return appUserDto;
     }

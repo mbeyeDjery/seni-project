@@ -56,7 +56,7 @@ export class ListManagerComponent implements OnInit {
     protected appUserService = inject(UserGestionnaireService);
 
     ngOnInit(): void {
-        this.ngxSpinnerService.show();
+        this.ngxSpinnerService.show().then();
         this.load();
     }
 

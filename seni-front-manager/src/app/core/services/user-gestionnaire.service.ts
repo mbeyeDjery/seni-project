@@ -28,7 +28,6 @@ export class UserGestionnaireService {
     }
 
     getAllUsers(): Observable<IAppUser[]>{
-        console.warn(this.serverApiUrl);
         return this.http.get<IAppUser[]>(this.serverApiUrl);
     }
 

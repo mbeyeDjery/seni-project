@@ -1,6 +1,5 @@
 package fr.app.seni.auth.hopital.controller;
 
-
 import fr.app.seni.auth.hopital.service.UserService;
 import fr.app.seni.core.dto.AppUserDto;
 import lombok.RequiredArgsConstructor;
@@ -21,26 +20,26 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<AppUserDto> createUser(@RequestBody AppUserDto appUser) {
-        log.info("REQUEST to create MANAGER user : {}", appUser);
+        log.info("REQUEST to create hospital user : {}", appUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(appUser));
     }
 
     @PutMapping
     public ResponseEntity<AppUserDto> updateUser(@RequestBody AppUserDto appUser) {
-        log.info("REQUEST to update MANAGER user : {}", appUser);
+        log.info("REQUEST to update hospital user : {}", appUser);
         return ResponseEntity.ok(userService.updateUser(appUser));
     }
 
     @DeleteMapping("/{idUser}")
     public ResponseEntity<Void> deleteUser(@PathVariable("idUser") String idUser) {
-        log.info("REQUEST to delete MANAGER user : {}", idUser);
+        log.info("REQUEST to delete hospital user : {}", idUser);
         userService.deleteUser(idUser);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping()
-    public ResponseEntity<List<AppUserDto>> getAllUsers(){
-        log.info("REQUEST to list of all manager user");
-        return ResponseEntity.ok(userService.getAllUsers());
+    @GetMapping("/{idHopital}")
+    public ResponseEntity<List<AppUserDto>> getAllUsers(@PathVariable String idHopital){
+        log.info("REQUEST to list of all hopital user");
+        return ResponseEntity.ok(userService.getAllUsers(idHopital));
     }
 }

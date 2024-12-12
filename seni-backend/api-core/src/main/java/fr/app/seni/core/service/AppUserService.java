@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AccountService {
+public class AppUserService {
 
     private final AppUserMapper appUserMapper;
     private final AppUserRepository appUserRepository;

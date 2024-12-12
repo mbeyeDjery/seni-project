@@ -9,5 +9,5 @@ import {IHopital} from "../../../../core/model/hopital-model";
   styles: ``
 })
 export class ListUserHopitalComponent {
-  @Input({required: true}) hopital: IHopital;
+
 }

@@ -13,10 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.admin.client.resource.RolesResource;
 import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +32,6 @@ public class UserService {
     @Value("${seni-app.keycloak.realm}")
     private String realm;
     private final Keycloak keycloak;
-
     private final AppUserService appUserService;
 
     public AppUserDto createUser(AppUserDto appUser) {
@@ -68,13 +65,17 @@ public class UserService {
     public AppUserDto updateUser(AppUserDto appUser) {
         try {
             String userId = appUser.getIdUser();
-            getUsersResource().get(userId).update(mapAppUserToKeycloakUser(appUser));
+            AppUserDto userKeycloak = getKeycloakUserById(userId);
+            userKeycloak.setLastName(appUser.getLastName());
+            userKeycloak.setFirstName(appUser.getFirstName());
+            getUsersResource().get(userId).update(mapAppUserToKeycloakUser(userKeycloak));
             getUsersResource().get(userId).roles().realmLevel().listAll().forEach(role -> removeRoleFromUser(userId, role.getName()));
             appUser.getRoles().forEach(role -> addRoleToUser(userId, role.getRoleName()));
-            appUser.setGroupe(AppUserGroup.MANAGER);
-            appUser = appUserService.update(appUser);
-            appUser.setRoles(getUserRole(appUser.getIdUser()));
-            return appUser;
+
+            userKeycloak.setGroupe(AppUserGroup.HOPITAL);
+            userKeycloak = appUserService.update(userKeycloak);
+            userKeycloak.setRoles(getUserRole(userId));
+            return userKeycloak;
         }catch (Exception e){
             if (e instanceof NotFoundException){
                 throw new CustomException("L'utilisateur n'existe pas", HttpStatus.NOT_FOUND);
@@ -204,7 +205,7 @@ public class UserService {
         appUserDto.setRoles(getUserRole(userRepresentation.getId()));
         Map<String, List<String>> attributes = userRepresentation.getAttributes();
         if (attributes != null) {
-            appUserDto.setTelephone(attributes.get("telephone") != null ? attributes.get("telephone").get(0) : null);
+            appUserDto.setTelephone(attributes.get("telephone") != null ? attributes.get("telephone").getFirst() : null);
         }
         return appUserDto;
     }
